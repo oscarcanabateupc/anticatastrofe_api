@@ -25,4 +25,8 @@ public class PersonService {
     public void deleteAditionalInfo(String email) {
         personRepository.deleteById(email);
     }
+
+    public boolean userPasswordMatch(String email, String introduced_password) {
+        return introduced_password.equals(personRepository.findById(email).get().getPassword());
+    }
 }
