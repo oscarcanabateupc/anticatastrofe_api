@@ -2,6 +2,8 @@ package pes.anticatastrofe.admin;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -30,12 +32,19 @@ public class AdminController {
     }
 
     @PostMapping
-    public Map<String, String> registerNewAdmin(@RequestBody Admin admin){
-        Admin a = adminService.addNewAdmin(admin);
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("operation_success", "true");
-        map.put("deleted_person_id",a.email);
-        return map;
+    public ResponseEntity<Map<String, String>> registerNewAdmin(@RequestBody Admin admin) {
+        Map<String, String> response = new HashMap<String, String>();
+        if(!adminService.findByID(admin.email).isPresent()) {
+            Admin a = adminService.addNewAdmin(admin);
+            response.put("operation_success", "true");
+            response.put("deleted_object_id", a.email);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        else {
+            response.put("message", "aditionalInfo already exists");
+            response.put("status", HttpStatus.ALREADY_REPORTED.toString());
+            return new ResponseEntity<>(response, HttpStatus.ALREADY_REPORTED);
+        }
     }
 
     @DeleteMapping

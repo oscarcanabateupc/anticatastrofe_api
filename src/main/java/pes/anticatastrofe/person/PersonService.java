@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PersonService {
@@ -28,5 +29,9 @@ public class PersonService {
 
     public boolean userPasswordMatch(String email, String introduced_password) {
         return introduced_password.equals(personRepository.findById(email).get().getPassword());
+    }
+
+    public Optional<Person> findByID(String email) {
+        return personRepository.findById(email);
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -24,5 +25,9 @@ public class UserService {
 
     public void deleteUser(String email) {
         userRepository.deleteById(email);
+    }
+
+    public Optional<User> findByID(String email) {
+        return userRepository.findById(email);
     }
 }

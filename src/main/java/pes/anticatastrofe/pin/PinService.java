@@ -4,6 +4,7 @@ package pes.anticatastrofe.pin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PinService {
@@ -22,7 +23,11 @@ public class PinService {
         return pinRepository.save(pin);
     }
 
-    public void deletePin(String landmark_id) {
+    public void deletePin(Integer landmark_id) {
         pinRepository.deleteById(landmark_id);
+    }
+
+    public Optional<Pin> findByID(int landmark_id) {
+        return pinRepository.findById(landmark_id);
     }
 }

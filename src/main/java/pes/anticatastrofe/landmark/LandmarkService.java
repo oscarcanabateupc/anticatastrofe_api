@@ -2,10 +2,9 @@ package pes.anticatastrofe.landmark;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pes.anticatastrofe.pin.Pin;
-import pes.anticatastrofe.pin.PinRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LandmarkService {
@@ -24,7 +23,11 @@ public class LandmarkService {
         return landmarkRepository.save(landmark);
     }
 
-    public void deleteLandmark(String landmark_id) {
+    public void deleteLandmark(Integer landmark_id) {
         landmarkRepository.deleteById(landmark_id);
+    }
+
+    public Optional<Landmark> getLandmarkById(Integer id) {
+        return landmarkRepository.findById(id);
     }
 }

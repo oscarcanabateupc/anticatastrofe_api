@@ -19,7 +19,7 @@ public class TagService {
         return tagRepository.findAll();
     }
 
-    public Optional<Tag> getTagByName(String name) {
+    public Optional<Tag> getTagById(String name) {
         return tagRepository.findById(name);
     }
 
@@ -29,5 +29,9 @@ public class TagService {
 
     public void deleteTag(String name) {
         tagRepository.deleteById(name);
+    }
+
+    public Optional<Tag> findByID(String name) {
+        return tagRepository.findById(name);
     }
 }

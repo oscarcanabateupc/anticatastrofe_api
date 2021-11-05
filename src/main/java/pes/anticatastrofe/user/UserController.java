@@ -1,7 +1,10 @@
 package pes.anticatastrofe.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pes.anticatastrofe.person.Person;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,12 +31,19 @@ public class UserController {
     }
 
     @PostMapping
-    public Map<String, String> registerNewUser(@RequestBody User user){
-        User u = userService.addNewUser(user);
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("operation_success", "true");
-        map.put("new_user_id",u.email);
-        return map;
+    public ResponseEntity<Map<String, String>> registerNewUser(@RequestBody User user){
+        Map<String, String> response = new HashMap<String, String>();
+        if(!userService.findByID(user.email).isPresent()) {
+            User u = userService.addNewUser(user);
+            response.put("operation_success", "true");
+            response.put("deleted_object_id", u.email);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        else {
+            response.put("message", "aditionalInfo already exists");
+            response.put("status", HttpStatus.ALREADY_REPORTED.toString());
+            return new ResponseEntity<>(response, HttpStatus.ALREADY_REPORTED);
+        }
     }
 
     @DeleteMapping

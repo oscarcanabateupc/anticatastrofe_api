@@ -1,9 +1,5 @@
 package pes.anticatastrofe.landmark;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 public class LandmarkDTO {
     int id;
     String tag;

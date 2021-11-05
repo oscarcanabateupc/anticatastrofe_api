@@ -4,10 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import pes.anticatastrofe.pin.Pin;
-import pes.anticatastrofe.pin.PinService;
-import pes.anticatastrofe.tag.Tag;
 import pes.anticatastrofe.tag.TagService;
 
 import java.util.HashMap;
@@ -39,22 +35,29 @@ public class LandmarkController {
     @PostMapping
     public ResponseEntity<Map<String, String>> registerNewLandmark(@RequestBody Landmark landmark){
         Map<String, String> response = new HashMap<String, String>();
-        if (tagService.getTagByName(landmark.tag).isPresent()) {
-            Landmark l = landmarkService.addNewLandmark(landmark);
-            response.put("operation_success", "true");
-            response.put("new_landmark_id", Integer.toString(l.id));
-            return new ResponseEntity<>(response, HttpStatus.OK);
+        if (tagService.getTagById(landmark.tag).isPresent()) {
+            if (!landmarkService.getLandmarkById(landmark.id).isPresent()) {
+                Landmark l = landmarkService.addNewLandmark(landmark);
+                response.put("operation_success", "true");
+                response.put("new_landmark_id", Integer.toString(l.id));
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+            else {
+                response.put("message", "landmark already exists");
+                response.put("status", HttpStatus.ALREADY_REPORTED.toString());
+                return new ResponseEntity<>(response, HttpStatus.ALREADY_REPORTED);
+            }
         }
         else {
             response.put("message", "tag not exists");
-            response.put("status", HttpStatus.NOT_FOUND.toString());
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            response.put("status", HttpStatus.FAILED_DEPENDENCY.toString());
+            return new ResponseEntity<>(response, HttpStatus.FAILED_DEPENDENCY);
         }
     }
 
     @DeleteMapping
     public Map<String,String> deleteLandmark(@RequestParam Integer landmark_id) {
-        landmarkService.deleteLandmark(Integer.toString(landmark_id));
+        landmarkService.deleteLandmark(landmark_id);
         Map<String, String> map = new HashMap<String, String>();
         map.put("operation_success", "true");
         map.put("deleted_landmark_id",Integer.toString(landmark_id));
