@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.*;
 import pes.anticatastrofe.admin.Admin;
 import pes.anticatastrofe.admin.AdminDTO;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -29,13 +31,20 @@ public class AditionalInfoController {
     }
 
     @PostMapping
-    public void registerNewAditionalInfo(@RequestBody AditionalInfo aditionalInfo){
-        aditionalInfoService.addNewAditionalInfo(aditionalInfo);
+    public Map<String,String> registerNewAditionalInfo(@RequestBody AditionalInfo aditionalInfo){
+        AditionalInfo ai = aditionalInfoService.addNewAditionalInfo(aditionalInfo);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("operation_success", "true");
+        map.put("deleted_person_id",ai.email);
+        return map;
     }
 
     @DeleteMapping
-    public void deleteAditionalInfo(@RequestParam String email) {
+    public Map<String,String> deleteAditionalInfo(@RequestParam String email) {
         aditionalInfoService.deleteAditionalInfo(email);
-
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("operation_success", "true");
+        map.put("deleted_person_id",email);
+        return map;
     }
 }

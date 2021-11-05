@@ -3,10 +3,10 @@ package pes.anticatastrofe.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pes.anticatastrofe.user.User;
-import pes.anticatastrofe.user.UserDTO;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -30,13 +30,20 @@ public class AdminController {
     }
 
     @PostMapping
-    public void registerNewAdmin(@RequestBody Admin admin){
-        adminService.addNewAdmin(admin);
+    public Map<String, String> registerNewAdmin(@RequestBody Admin admin){
+        Admin a = adminService.addNewAdmin(admin);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("operation_success", "true");
+        map.put("deleted_person_id",a.email);
+        return map;
     }
 
     @DeleteMapping
-    public void deleteAdmin(@RequestParam String email) {
+    public Map<String,String> deleteAdmin(@RequestParam String email) {
         adminService.deleteAditionalInfo(email);
-
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("operation_success", "true");
+        map.put("deleted_person_id",email);
+        return map;
     }
 }

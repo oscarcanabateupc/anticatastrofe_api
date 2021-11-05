@@ -18,8 +18,8 @@ public class PersonService {
         return personRepository.findAll();
     }
 
-    public void addNewPerson(Person person) {
-        personRepository.save(person);
+    public Person addNewPerson(Person person) {
+        return personRepository.save(person);
     }
 
     public void deleteAditionalInfo(String email) {

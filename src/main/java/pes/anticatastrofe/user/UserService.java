@@ -18,8 +18,8 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void addNewUser(User user) {
-        userRepository.save(user);
+    public User addNewUser(User user) {
+        return userRepository.save(user);
     }
 
     public void deleteUser(String email) {

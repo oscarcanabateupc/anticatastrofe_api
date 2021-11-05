@@ -3,7 +3,9 @@ package pes.anticatastrofe.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -26,13 +28,20 @@ public class UserController {
     }
 
     @PostMapping
-    public void registerNewUser(@RequestBody User user){
-        userService.addNewUser(user);
+    public Map<String, String> registerNewUser(@RequestBody User user){
+        User u = userService.addNewUser(user);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("operation_success", "true");
+        map.put("deleted_person_id",u.email);
+        return map;
     }
 
     @DeleteMapping
-    public void deleteUser(@RequestParam String email) {
+    public Map<String,String> deleteUser(@RequestParam String email) {
         userService.deleteUser(email);
-
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("operation_success", "true");
+        map.put("deleted_person_id",email);
+        return map;
     }
 }

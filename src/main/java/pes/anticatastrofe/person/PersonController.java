@@ -38,13 +38,20 @@ public class PersonController {
     }
 
     @PostMapping
-    public void registerNewPerson(@RequestBody Person person){
-        personService.addNewPerson(person);
+    public Map<String,String> registerNewPerson(@RequestBody Person person){
+        Person p = personService.addNewPerson(person);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("operation_success", "true");
+        map.put("created_person_id",p.email);
+        return map;
     }
 
     @DeleteMapping
-    public void deletePerson(@RequestParam String email) {
+    public Map<String,String> deletePerson(@RequestParam String email) {
         personService.deleteAditionalInfo(email);
-
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("operation_success", "true");
+        map.put("deleted_person_id",email);
+        return map;
     }
 }

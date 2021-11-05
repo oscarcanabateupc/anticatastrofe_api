@@ -17,8 +17,8 @@ public class AdminService {
     public List<Admin> getAdmins() { return adminRepository.findAll();
     }
 
-    public void addNewAdmin(Admin admin) {
-        adminRepository.save(admin);
+    public Admin addNewAdmin(Admin admin) {
+        return adminRepository.save(admin);
     }
 
     public void deleteAditionalInfo(String email) {

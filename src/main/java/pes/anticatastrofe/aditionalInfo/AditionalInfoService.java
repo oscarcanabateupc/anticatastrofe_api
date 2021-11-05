@@ -17,8 +17,8 @@ public class AditionalInfoService {
         return aditionalInfoRepository.findAll();
     }
 
-    public void addNewAditionalInfo(AditionalInfo aditionalInfo) {
-        aditionalInfoRepository.save(aditionalInfo);
+    public AditionalInfo addNewAditionalInfo(AditionalInfo aditionalInfo) {
+        return aditionalInfoRepository.save(aditionalInfo);
     }
 
     public void deleteAditionalInfo(String email) {
