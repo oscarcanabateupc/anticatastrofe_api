@@ -1,8 +1,8 @@
 package pes.anticatastrofe.person;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import pes.anticatastrofe.user.User;
+
+import javax.persistence.*;
 
 @Entity
 @Table

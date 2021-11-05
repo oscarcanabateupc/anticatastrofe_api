@@ -32,7 +32,7 @@ public class UserController {
         User u = userService.addNewUser(user);
         Map<String, String> map = new HashMap<String, String>();
         map.put("operation_success", "true");
-        map.put("deleted_person_id",u.email);
+        map.put("new_user_id",u.email);
         return map;
     }
 
@@ -41,7 +41,7 @@ public class UserController {
         userService.deleteUser(email);
         Map<String, String> map = new HashMap<String, String>();
         map.put("operation_success", "true");
-        map.put("deleted_person_id",email);
+        map.put("deleted_user_id",email);
         return map;
     }
 }

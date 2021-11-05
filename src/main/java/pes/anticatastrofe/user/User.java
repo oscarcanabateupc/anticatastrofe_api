@@ -1,12 +1,13 @@
 package pes.anticatastrofe.user;
 
+import pes.anticatastrofe.person.Person;
+
 import javax.persistence.*;
 
 @Entity
 @Table
 public class User {
-    @Id
-    String email;
+    @Id String email;
     float last_coordinate_x;
     float last_coordinate_y;
     float last_coordinate_z;

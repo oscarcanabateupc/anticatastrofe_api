@@ -42,7 +42,7 @@ public class PersonController {
         Person p = personService.addNewPerson(person);
         Map<String, String> map = new HashMap<String, String>();
         map.put("operation_success", "true");
-        map.put("created_person_id",p.email);
+        map.put("new_person_id",p.email);
         return map;
     }
 

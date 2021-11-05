@@ -1,26 +1,34 @@
-package pes.anticatastrofe.place;
+package pes.anticatastrofe.landmark;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.Table;
-import java.io.Serializable;
 
-@Entity
-@Table
-@IdClass(Place.class)
-public class Place implements Serializable {
-    @Id float coordinate_x;
-    @Id float coordinate_y;
-    @Id float coordinate_z;
+public class LandmarkDTO {
+    int id;
+    String tag;
+    float coordinate_x;
+    float coordinate_y;
+    float coordinate_z;
 
-    public Place() {
+    public LandmarkDTO(Landmark l) {
+        id = l.id;
+        tag = l.tag;
+        coordinate_x = l.coordinate_x;
+        coordinate_y = l.coordinate_y;
+        coordinate_z = l.coordinate_z;
     }
 
-    public Place(float coordinate_x, float coordinate_y, float coordinate_z) {
-        this.coordinate_x = coordinate_x;
-        this.coordinate_y = coordinate_y;
-        this.coordinate_z = coordinate_z;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public float getCoordinate_x() {
