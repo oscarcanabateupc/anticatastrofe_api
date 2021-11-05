@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path="/user")
@@ -16,8 +17,12 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getUsers() {
-        return userService.getUsers();
+    public List<UserDTO> getUsers() {
+        List<User> users = userService.getUsers();
+        List<UserDTO> usersDTO = users.stream()
+                                        .map(user->new UserDTO(user))
+                                        .collect(Collectors.toList());
+        return usersDTO;
     }
 
     @PostMapping

@@ -2,10 +2,12 @@ package pes.anticatastrofe.person;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pes.anticatastrofe.user.UserDTO;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path="/person")
@@ -19,8 +21,12 @@ public class PersonController {
     }
 
     @GetMapping(value = "/persons")
-    public List<Person> getPersons() {
-        return personService.getPersons();
+    public List<PersonDTO> getPersons() {
+        List<Person> persons = personService.getPersons();
+        List<PersonDTO> personsDTO = persons.stream()
+                .map(person->new PersonDTO(person))
+                .collect(Collectors.toList());
+        return personsDTO;
     }
 
     @GetMapping(value = "/userPasswordMatch")
