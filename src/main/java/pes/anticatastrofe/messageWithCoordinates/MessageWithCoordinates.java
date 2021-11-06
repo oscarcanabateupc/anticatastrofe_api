@@ -1,9 +1,12 @@
 package pes.anticatastrofe.messageWithCoordinates;
 
 import lombok.Data;
+import pes.anticatastrofe.landmark.Landmark;
+import pes.anticatastrofe.message.Message;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -11,8 +14,12 @@ import javax.persistence.Table;
 @Data
 public class MessageWithCoordinates {
     @Id
-    int message_id;
-    float coordinate_x;
-    float coordinate_y;
-    float coordinate_z;
+    int id;
+
+    @OneToOne
+    Message message;
+
+    @OneToOne
+    Landmark landmark;
+    
 }

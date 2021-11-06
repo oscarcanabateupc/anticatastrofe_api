@@ -34,7 +34,7 @@ public class LandmarkController {
     @PostMapping
     public ResponseEntity<Map<String, String>> registerNewLandmark(@RequestBody Landmark landmark) {
         Map<String, String> response = new HashMap<>();
-        if (tagService.getTagById(landmark.tag).isPresent()) {
+        if (tagService.getTagById(landmark.tag.getName()).isPresent()) {
             if (!landmarkService.getLandmarkById(landmark.id).isPresent()) {
                 Landmark l = landmarkService.addNewLandmark(landmark);
                 response.put("operation_success", "true");

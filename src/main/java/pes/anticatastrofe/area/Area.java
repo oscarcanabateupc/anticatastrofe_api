@@ -1,15 +1,21 @@
 package pes.anticatastrofe.area;
 
 import lombok.Data;
+import pes.anticatastrofe.landmark.Landmark;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table
 @Data
 public class Area {
     @Id
-    int landmark_id;
+    int id;
+
+    @OneToMany
+    List<Landmark> landmarks;
+
+    @OneToOne
+    Landmark center;
 }

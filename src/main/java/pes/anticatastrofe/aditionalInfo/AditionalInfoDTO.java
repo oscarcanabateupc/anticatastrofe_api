@@ -1,11 +1,5 @@
 package pes.anticatastrofe.aditionalInfo;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table
 public class AditionalInfoDTO {
     String street;
     String city;
@@ -13,7 +7,7 @@ public class AditionalInfoDTO {
     String postal_code;
     String country;
     String path_profile_pic;
-    @Id String email;
+    String email;
 
     public AditionalInfoDTO(AditionalInfo ai) {
         street = ai.street;

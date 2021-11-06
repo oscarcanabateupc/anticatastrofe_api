@@ -1,9 +1,11 @@
 package pes.anticatastrofe.message;
 
 import lombok.Data;
+import pes.anticatastrofe.person.Person;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.Date;
 
@@ -13,8 +15,13 @@ import java.util.Date;
 public class Message {
     String content;
     Date date_sent;
-    Boolean read;
+    Boolean seen;
     @Id
     int id;
-    String recipient_mail;
+
+    @OneToOne
+    Person sender;
+
+    @OneToOne
+    Person recipient;
 }

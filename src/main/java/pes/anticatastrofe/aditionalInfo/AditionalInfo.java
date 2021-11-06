@@ -1,9 +1,11 @@
 package pes.anticatastrofe.aditionalInfo;
 
 import lombok.Data;
+import pes.anticatastrofe.person.Person;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -18,4 +20,7 @@ public class AditionalInfo {
     String path_profile_pic;
     @Id
     String email;
+
+    @OneToOne
+    Person person;
 }
