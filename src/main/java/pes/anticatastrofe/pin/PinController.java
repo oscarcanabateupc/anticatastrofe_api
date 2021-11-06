@@ -32,10 +32,11 @@ public class PinController {
     @PostMapping
     public ResponseEntity<Map<String, String>> registerNewPin(@RequestBody Pin pin){
         Map<String, String> response = new HashMap<String, String>();
-        if(!pinService.findByID(pin.landmark_id).isPresent()) {
+        if(!pinService.findByID(pin.landmark_id,pin.email).isPresent()) {
             Pin p = pinService.addNewPin(pin);
             response.put("operation_success", "true");
             response.put("new_object_id",Integer.toString(p.landmark_id));
+            response.put("new_object_id_2",(p.email));
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
         else {
@@ -46,8 +47,8 @@ public class PinController {
     }
 
     @DeleteMapping
-    public Map<String,String> deletePin(@RequestParam Integer landmark_id) {
-        pinService.deletePin(landmark_id);
+    public Map<String,String> deletePin(@RequestParam Integer landmark_id, @RequestParam String email) {
+        pinService.deletePin(landmark_id,email);
         Map<String, String> map = new HashMap<String, String>();
         map.put("operation_success", "true");
         map.put("deleted_pin_id",Integer.toString(landmark_id));

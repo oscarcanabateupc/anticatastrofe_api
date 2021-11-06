@@ -2,13 +2,17 @@ package pes.anticatastrofe.pin;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
+import java.io.Serializable;
 
+
+@IdClass(CompositeKeyPin.class)
 @Entity
 @Table
-public class Pin {
+public class Pin implements Serializable {
     @Id int landmark_id;
-    String email;
+    @Id String email;
 
     public Pin() {
     }
