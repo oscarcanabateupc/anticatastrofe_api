@@ -30,11 +30,59 @@ public class PersonController {
     }
 
     @GetMapping(value = "/userPasswordMatch")
-    public Map<String, String> userPasswordMatch(@RequestParam String email, @RequestParam String introduced_password) {
-        Map<String, String> map = new HashMap<>();
-        if (personService.userPasswordMatch(email, introduced_password)) map.put("login_success", "true");
-        else map.put("login_success", "false");
-        return map;
+    public ResponseEntity<Map<String, String>> userPasswordMatch(@RequestParam String email, @RequestParam String introduced_password) {
+        Map<String, String> response = new HashMap<>();
+        if (personService.findByID(email).isPresent()) {
+            if (personService.userPasswordMatch(email, introduced_password)) {
+                response.put("login_success", "true");
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            } else {
+                response.put("login_success", "false");
+                response.put("message", "incorrect password, no login for you");
+                response.put("status", HttpStatus.FORBIDDEN.toString());
+                return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+            }
+        } else {
+            response.put("login_success", "false");
+            response.put("message", "person not exists so nothing was deleted");
+            response.put("status", HttpStatus.NOT_FOUND.toString());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping(value = "/getToken")
+    public ResponseEntity<Map<String, String>> getToken(@RequestParam String email, @RequestParam String introduced_password) {
+        Map<String, String> response = new HashMap<>();
+        if (personService.findByID(email).isPresent()) {
+            if (personService.userPasswordMatch(email, introduced_password)) {
+                String token = personService.getToken(email);
+                response.put("operation_success", "true");
+                response.put("token", token);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            } else {
+                response.put("message", "incorrect password, no token for you");
+                response.put("status", HttpStatus.FORBIDDEN.toString());
+                return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+            }
+        } else {
+            response.put("message", "person not exists so nothing was deleted");
+            response.put("status", HttpStatus.NOT_FOUND.toString());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping(value = "/resetToken")
+    public ResponseEntity<Map<String, String>> resetToken(@RequestParam String email, @RequestParam String introduced_token) {
+        Map<String, String> response = new HashMap<>();
+        if (personService.findByID(email).isPresent()) {
+            personService.resetToken(email, introduced_token);
+            response.put("operation_success", "true");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            response.put("message", "person not exists so nothing was deleted");
+            response.put("status", HttpStatus.NOT_FOUND.toString());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping
@@ -43,7 +91,7 @@ public class PersonController {
         if (!personService.findByID(person.email).isPresent()) {
             Person p = personService.addNewPerson(person);
             response.put("operation_success", "true");
-            response.put("deleted_object_id", p.email);
+            response.put("new_object_id", p.email);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             response.put("message", "person already exists");
@@ -56,9 +104,9 @@ public class PersonController {
     public ResponseEntity<Map<String, String>> deletePerson(@RequestParam String email) {
         Map<String, String> response = new HashMap<>();
         if (personService.findByID(email).isPresent()) {
-            personService.deleteAditionalInfo(email);
+            personService.deletePerson(email);
             response.put("operation_success", "true");
-            response.put("deleted_person_id", email);
+            response.put("deleted_object_id", email);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             response.put("message", "person not exists so nothing was deleted");

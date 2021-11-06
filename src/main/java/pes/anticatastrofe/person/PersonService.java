@@ -15,7 +15,7 @@ public class PersonService {
         this.personRepository = personRepository;
     }
 
-    public List<Person> getPersons(){
+    public List<Person> getPersons() {
         return personRepository.findAll();
     }
 
@@ -23,7 +23,7 @@ public class PersonService {
         return personRepository.save(person);
     }
 
-    public void deleteAditionalInfo(String email) {
+    public void deletePerson(String email) {
         personRepository.deleteById(email);
     }
 
@@ -33,5 +33,17 @@ public class PersonService {
 
     public Optional<Person> findByID(String email) {
         return personRepository.findById(email);
+    }
+
+    public String resetToken(String email, String introduced_token) {
+        Person p = personRepository.findById(email).get();
+        p.setToken(introduced_token);
+        p = personRepository.save(p);
+        return p.token;
+    }
+
+    public String getToken(String email) {
+        Person p = personRepository.findById(email).get();
+        return p.token;
     }
 }

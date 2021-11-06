@@ -18,6 +18,7 @@ public class Person {
     String name;
     int phone_num;
     String password;
+    String token;
 
     @OneToMany
     List<Landmark> landmark;
