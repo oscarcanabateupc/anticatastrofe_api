@@ -23,21 +23,18 @@ public class TagController {
     @GetMapping
     public List<TagDTO> getTags() {
         List<Tag> pins = tagService.getTags();
-        List<TagDTO> tagsDTO = pins.stream()
-                .map(tag -> new TagDTO(tag))
+        return pins.stream()
+                .map(TagDTO::new)
                 .collect(Collectors.toList());
-        return tagsDTO;
     }
 
     @PostMapping
     public ResponseEntity<Map<String, String>> registerNewTag(@RequestBody Tag tag) {
-        Map<String, String> response = new HashMap<String, String>();
+        Map<String, String> response = new HashMap<>();
         if (!tagService.findByID(tag.name).isPresent()) {
             Tag t = tagService.addNewTag(tag);
             response.put("operation_success", "true");
             response.put("new_tag_id", t.name);
-            response.put("operation_success", "true");
-            response.put("deleted_object_id", t.name);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             response.put("message", "tag already exists");
@@ -48,7 +45,7 @@ public class TagController {
 
     @DeleteMapping
     public ResponseEntity<Map<String, String>> deleteTag(@RequestParam String name) {
-        Map<String, String> response = new HashMap<String, String>();
+        Map<String, String> response = new HashMap<>();
         if (tagService.findByID(name).isPresent()) {
             tagService.deleteTag(name);
             response.put("operation_success", "true");

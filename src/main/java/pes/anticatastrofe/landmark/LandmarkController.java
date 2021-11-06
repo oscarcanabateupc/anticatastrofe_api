@@ -26,15 +26,14 @@ public class LandmarkController {
     @GetMapping
     public List<LandmarkDTO> getLandmarks() {
         List<Landmark> landmarks = landmarkService.getLandmarks();
-        List<LandmarkDTO> landmarksDTO = landmarks.stream()
-                .map(landmark -> new LandmarkDTO(landmark))
+        return landmarks.stream()
+                .map(LandmarkDTO::new)
                 .collect(Collectors.toList());
-        return landmarksDTO;
     }
 
     @PostMapping
     public ResponseEntity<Map<String, String>> registerNewLandmark(@RequestBody Landmark landmark) {
-        Map<String, String> response = new HashMap<String, String>();
+        Map<String, String> response = new HashMap<>();
         if (tagService.getTagById(landmark.tag).isPresent()) {
             if (!landmarkService.getLandmarkById(landmark.id).isPresent()) {
                 Landmark l = landmarkService.addNewLandmark(landmark);
@@ -55,7 +54,7 @@ public class LandmarkController {
 
     @DeleteMapping
     public ResponseEntity<Map<String, String>> deleteLandmark(@RequestParam Integer landmark_id) {
-        Map<String, String> response = new HashMap<String, String>();
+        Map<String, String> response = new HashMap<>();
         if (landmarkService.findByID(landmark_id).isPresent()) {
             landmarkService.deleteLandmark(landmark_id);
             response.put("operation_success", "true");

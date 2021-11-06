@@ -23,15 +23,14 @@ public class PinController {
     @GetMapping
     public List<PinDTO> getPins() {
         List<Pin> pins = pinService.getPins();
-        List<PinDTO> pinsDTO = pins.stream()
-                .map(pin -> new PinDTO(pin))
+        return pins.stream()
+                .map(PinDTO::new)
                 .collect(Collectors.toList());
-        return pinsDTO;
     }
 
     @PostMapping
     public ResponseEntity<Map<String, String>> registerNewPin(@RequestBody Pin pin) {
-        Map<String, String> response = new HashMap<String, String>();
+        Map<String, String> response = new HashMap<>();
         if (!pinService.findByID(pin.landmark_id, pin.email).isPresent()) {
             Pin p = pinService.addNewPin(pin);
             response.put("operation_success", "true");
@@ -47,7 +46,7 @@ public class PinController {
 
     @DeleteMapping
     public ResponseEntity<Map<String, String>> deletePin(@RequestParam Integer landmark_id, @RequestParam String email) {
-        Map<String, String> response = new HashMap<String, String>();
+        Map<String, String> response = new HashMap<>();
         if (pinService.findByID(landmark_id, email).isPresent()) {
             pinService.deletePin(landmark_id, email);
             response.put("operation_success", "true");

@@ -24,15 +24,14 @@ public class AditionalInfoController {
     @GetMapping
     public List<AditionalInfoDTO> getAditionalInfos() {
         List<AditionalInfo> users = aditionalInfoService.getAditionalInfos();
-        List<AditionalInfoDTO> aditionalInfoDTOS = users.stream()
-                .map(aditionalInfo -> new AditionalInfoDTO(aditionalInfo))
+        return users.stream()
+                .map(AditionalInfoDTO::new)
                 .collect(Collectors.toList());
-        return aditionalInfoDTOS;
     }
 
     @PostMapping
     public ResponseEntity<Map<String, String>> registerNewAditionalInfo(@RequestBody AditionalInfo aditionalInfo) {
-        Map<String, String> response = new HashMap<String, String>();
+        Map<String, String> response = new HashMap<>();
         if (!aditionalInfoService.findByID(aditionalInfo.email).isPresent()) {
             AditionalInfo ai = aditionalInfoService.addNewAditionalInfo(aditionalInfo);
             response.put("operation_success", "true");
@@ -47,7 +46,7 @@ public class AditionalInfoController {
 
     @DeleteMapping
     public ResponseEntity<Map<String, String>> deleteAditionalInfo(@RequestParam String email) {
-        Map<String, String> response = new HashMap<String, String>();
+        Map<String, String> response = new HashMap<>();
         if (aditionalInfoService.findByID(email).isPresent()) {
             aditionalInfoService.deleteAditionalInfo(email);
             response.put("operation_success", "true");

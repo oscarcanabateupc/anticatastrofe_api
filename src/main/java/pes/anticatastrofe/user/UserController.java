@@ -23,15 +23,14 @@ public class UserController {
     @GetMapping
     public List<UserDTO> getUsers() {
         List<User> users = userService.getUsers();
-        List<UserDTO> usersDTO = users.stream()
-                .map(user -> new UserDTO(user))
+        return users.stream()
+                .map(UserDTO::new)
                 .collect(Collectors.toList());
-        return usersDTO;
     }
 
     @PostMapping
     public ResponseEntity<Map<String, String>> registerNewUser(@RequestBody User user) {
-        Map<String, String> response = new HashMap<String, String>();
+        Map<String, String> response = new HashMap<>();
         if (!userService.findByID(user.email).isPresent()) {
             User u = userService.addNewUser(user);
             response.put("operation_success", "true");
@@ -46,7 +45,7 @@ public class UserController {
 
     @DeleteMapping
     public ResponseEntity<Map<String, String>> deleteUser(@RequestParam String email) {
-        Map<String, String> response = new HashMap<String, String>();
+        Map<String, String> response = new HashMap<>();
         if (userService.findByID(email).isPresent()) {
             userService.deleteUser(email);
             response.put("operation_success", "true");

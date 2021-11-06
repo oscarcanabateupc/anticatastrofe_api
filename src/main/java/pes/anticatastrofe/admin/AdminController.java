@@ -25,15 +25,14 @@ public class AdminController {
     @GetMapping
     public List<AdminDTO> getAdmins() {
         List<Admin> users = adminService.getAdmins();
-        List<AdminDTO> adminsDTO = users.stream()
-                .map(admin -> new AdminDTO(admin))
+        return users.stream()
+                .map(AdminDTO::new)
                 .collect(Collectors.toList());
-        return adminsDTO;
     }
 
     @PostMapping
     public ResponseEntity<Map<String, String>> registerNewAdmin(@RequestBody Admin admin) {
-        Map<String, String> response = new HashMap<String, String>();
+        Map<String, String> response = new HashMap<>();
         if (!adminService.findByID(admin.email).isPresent()) {
             Admin a = adminService.addNewAdmin(admin);
             response.put("operation_success", "true");
@@ -48,7 +47,7 @@ public class AdminController {
 
     @DeleteMapping
     public ResponseEntity<Map<String, String>> deleteAdmin(@RequestParam String email) {
-        Map<String, String> response = new HashMap<String, String>();
+        Map<String, String> response = new HashMap<>();
         if (adminService.findByID(email).isPresent()) {
             adminService.deleteAditionalInfo(email);
             response.put("operation_success", "true");

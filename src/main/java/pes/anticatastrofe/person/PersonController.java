@@ -24,15 +24,14 @@ public class PersonController {
     @GetMapping(value = "/persons")
     public List<PersonDTO> getPersons() {
         List<Person> persons = personService.getPersons();
-        List<PersonDTO> personsDTO = persons.stream()
-                .map(person -> new PersonDTO(person))
+        return persons.stream()
+                .map(PersonDTO::new)
                 .collect(Collectors.toList());
-        return personsDTO;
     }
 
     @GetMapping(value = "/userPasswordMatch")
     public Map<String, String> userPasswordMatch(@RequestParam String email, @RequestParam String introduced_password) {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         if (personService.userPasswordMatch(email, introduced_password)) map.put("login_success", "true");
         else map.put("login_success", "false");
         return map;
@@ -40,7 +39,7 @@ public class PersonController {
 
     @PostMapping
     public ResponseEntity<Map<String, String>> registerNewPerson(@RequestBody Person person) {
-        Map<String, String> response = new HashMap<String, String>();
+        Map<String, String> response = new HashMap<>();
         if (!personService.findByID(person.email).isPresent()) {
             Person p = personService.addNewPerson(person);
             response.put("operation_success", "true");
@@ -55,7 +54,7 @@ public class PersonController {
 
     @DeleteMapping
     public ResponseEntity<Map<String, String>> deletePerson(@RequestParam String email) {
-        Map<String, String> response = new HashMap<String, String>();
+        Map<String, String> response = new HashMap<>();
         if (personService.findByID(email).isPresent()) {
             personService.deleteAditionalInfo(email);
             response.put("operation_success", "true");
