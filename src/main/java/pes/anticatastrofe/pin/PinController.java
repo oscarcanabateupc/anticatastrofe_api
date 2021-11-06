@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path="/pin")
+@RequestMapping(path = "/pin")
 public class PinController {
     private final PinService pinService;
 
@@ -24,22 +24,21 @@ public class PinController {
     public List<PinDTO> getPins() {
         List<Pin> pins = pinService.getPins();
         List<PinDTO> pinsDTO = pins.stream()
-                .map(pin->new PinDTO(pin))
+                .map(pin -> new PinDTO(pin))
                 .collect(Collectors.toList());
         return pinsDTO;
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, String>> registerNewPin(@RequestBody Pin pin){
+    public ResponseEntity<Map<String, String>> registerNewPin(@RequestBody Pin pin) {
         Map<String, String> response = new HashMap<String, String>();
-        if(!pinService.findByID(pin.landmark_id,pin.email).isPresent()) {
+        if (!pinService.findByID(pin.landmark_id, pin.email).isPresent()) {
             Pin p = pinService.addNewPin(pin);
             response.put("operation_success", "true");
-            response.put("new_object_id",Integer.toString(p.landmark_id));
-            response.put("new_object_id_2",(p.email));
+            response.put("new_object_id", Integer.toString(p.landmark_id));
+            response.put("new_object_id_2", (p.email));
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }
-        else {
+        } else {
             response.put("message", "pin already exists");
             response.put("status", HttpStatus.ALREADY_REPORTED.toString());
             return new ResponseEntity<>(response, HttpStatus.ALREADY_REPORTED);
@@ -47,11 +46,17 @@ public class PinController {
     }
 
     @DeleteMapping
-    public Map<String,String> deletePin(@RequestParam Integer landmark_id, @RequestParam String email) {
-        pinService.deletePin(landmark_id,email);
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("operation_success", "true");
-        map.put("deleted_pin_id",Integer.toString(landmark_id));
-        return map;
+    public ResponseEntity<Map<String, String>> deletePin(@RequestParam Integer landmark_id, @RequestParam String email) {
+        Map<String, String> response = new HashMap<String, String>();
+        if (pinService.findByID(landmark_id, email).isPresent()) {
+            pinService.deletePin(landmark_id, email);
+            response.put("operation_success", "true");
+            response.put("deleted_pin_id", Integer.toString(landmark_id));
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            response.put("message", "pin not exists so nothing was deleted");
+            response.put("status", HttpStatus.NOT_FOUND.toString());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
     }
 }

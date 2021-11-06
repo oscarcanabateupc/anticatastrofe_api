@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pes.anticatastrofe.admin.Admin;
-import pes.anticatastrofe.user.UserDTO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +11,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path="/person")
+@RequestMapping(path = "/person")
 
 public class PersonController {
     private final PersonService personService;
@@ -27,7 +25,7 @@ public class PersonController {
     public List<PersonDTO> getPersons() {
         List<Person> persons = personService.getPersons();
         List<PersonDTO> personsDTO = persons.stream()
-                .map(person->new PersonDTO(person))
+                .map(person -> new PersonDTO(person))
                 .collect(Collectors.toList());
         return personsDTO;
     }
@@ -41,27 +39,32 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String,String>> registerNewPerson(@RequestBody Person person){
+    public ResponseEntity<Map<String, String>> registerNewPerson(@RequestBody Person person) {
         Map<String, String> response = new HashMap<String, String>();
-        if(!personService.findByID(person.email).isPresent()) {
+        if (!personService.findByID(person.email).isPresent()) {
             Person p = personService.addNewPerson(person);
             response.put("operation_success", "true");
             response.put("deleted_object_id", p.email);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }
-        else {
-            response.put("message", "aditionalInfo already exists");
+        } else {
+            response.put("message", "person already exists");
             response.put("status", HttpStatus.ALREADY_REPORTED.toString());
             return new ResponseEntity<>(response, HttpStatus.ALREADY_REPORTED);
         }
     }
 
     @DeleteMapping
-    public Map<String,String> deletePerson(@RequestParam String email) {
-        personService.deleteAditionalInfo(email);
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("operation_success", "true");
-        map.put("deleted_person_id",email);
-        return map;
+    public ResponseEntity<Map<String, String>> deletePerson(@RequestParam String email) {
+        Map<String, String> response = new HashMap<String, String>();
+        if (personService.findByID(email).isPresent()) {
+            personService.deleteAditionalInfo(email);
+            response.put("operation_success", "true");
+            response.put("deleted_person_id", email);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            response.put("message", "person not exists so nothing was deleted");
+            response.put("status", HttpStatus.NOT_FOUND.toString());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
     }
 }

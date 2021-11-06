@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path="/admin")
+@RequestMapping(path = "/admin")
 
 public class AdminController {
     private final AdminService adminService;
@@ -26,7 +26,7 @@ public class AdminController {
     public List<AdminDTO> getAdmins() {
         List<Admin> users = adminService.getAdmins();
         List<AdminDTO> adminsDTO = users.stream()
-                .map(admin->new AdminDTO(admin))
+                .map(admin -> new AdminDTO(admin))
                 .collect(Collectors.toList());
         return adminsDTO;
     }
@@ -34,25 +34,30 @@ public class AdminController {
     @PostMapping
     public ResponseEntity<Map<String, String>> registerNewAdmin(@RequestBody Admin admin) {
         Map<String, String> response = new HashMap<String, String>();
-        if(!adminService.findByID(admin.email).isPresent()) {
+        if (!adminService.findByID(admin.email).isPresent()) {
             Admin a = adminService.addNewAdmin(admin);
             response.put("operation_success", "true");
             response.put("deleted_object_id", a.email);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }
-        else {
-            response.put("message", "aditionalInfo already exists");
+        } else {
+            response.put("message", "admin already exists");
             response.put("status", HttpStatus.ALREADY_REPORTED.toString());
             return new ResponseEntity<>(response, HttpStatus.ALREADY_REPORTED);
         }
     }
 
     @DeleteMapping
-    public Map<String,String> deleteAdmin(@RequestParam String email) {
-        adminService.deleteAditionalInfo(email);
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("operation_success", "true");
-        map.put("deleted_person_id",email);
-        return map;
+    public ResponseEntity<Map<String, String>> deleteAdmin(@RequestParam String email) {
+        Map<String, String> response = new HashMap<String, String>();
+        if (adminService.findByID(email).isPresent()) {
+            adminService.deleteAditionalInfo(email);
+            response.put("operation_success", "true");
+            response.put("deleted_person_id", email);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            response.put("message", "admin not exists so nothing was deleted");
+            response.put("status", HttpStatus.NOT_FOUND.toString());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
     }
 }

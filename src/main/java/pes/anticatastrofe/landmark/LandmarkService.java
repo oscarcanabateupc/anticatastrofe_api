@@ -30,4 +30,8 @@ public class LandmarkService {
     public Optional<Landmark> getLandmarkById(Integer id) {
         return landmarkRepository.findById(id);
     }
+
+    public Optional<Landmark> findByID(Integer landmark_id) {
+        return landmarkRepository.findById(landmark_id);
+    }
 }
