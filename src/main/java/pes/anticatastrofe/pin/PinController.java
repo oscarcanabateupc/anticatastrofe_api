@@ -40,7 +40,7 @@ public class PinController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
         else {
-            response.put("message", "aditionalInfo already exists");
+            response.put("message", "pin already exists");
             response.put("status", HttpStatus.ALREADY_REPORTED.toString());
             return new ResponseEntity<>(response, HttpStatus.ALREADY_REPORTED);
         }
