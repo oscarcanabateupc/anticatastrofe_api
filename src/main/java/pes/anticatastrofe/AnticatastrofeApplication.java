@@ -11,5 +11,5 @@ public class AnticatastrofeApplication {
     public static void main(String[] args) {
         SpringApplication.run(AnticatastrofeApplication.class, args);
     }
-
 }
+
