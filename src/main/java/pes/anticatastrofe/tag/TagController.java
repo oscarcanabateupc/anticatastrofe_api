@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(path = "/tag")
 public class TagController {
+    @Autowired
     private final TagService tagService;
 
     @Autowired

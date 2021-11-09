@@ -1,6 +1,8 @@
 package pes.anticatastrofe.person;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import pes.anticatastrofe.landmark.Landmark;
 
 import javax.persistence.Entity;
@@ -12,6 +14,8 @@ import java.util.List;
 @Entity
 @Table
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Person {
     @Id
     String email;

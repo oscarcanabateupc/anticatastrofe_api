@@ -1,6 +1,8 @@
 package pes.anticatastrofe.landmark;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import pes.anticatastrofe.person.Person;
 import pes.anticatastrofe.tag.Tag;
 
@@ -12,6 +14,8 @@ import javax.persistence.Table;
 @Entity
 @Table
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Landmark {
     @Id
     int id;
