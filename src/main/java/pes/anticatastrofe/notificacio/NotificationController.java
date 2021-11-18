@@ -33,10 +33,10 @@ public class NotificationController {
     @PostMapping
     public ResponseEntity<Map<String, String>> registerNewNotification(@RequestBody Notification notification) {
         Map<String, String> response = new HashMap<>();
-        if (!notificationService.findByID(notification.id).isPresent()) {
+        if (!notificationService.findByID(notification.getId()).isPresent()) {
             Notification n = notificationService.addNewNotification(notification);
             response.put("operation_success", "true");
-            response.put("new_object_id", String.valueOf(n.id));
+            response.put("new_object_id", String.valueOf(n.getId()));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             response.put("message", "person already exists");

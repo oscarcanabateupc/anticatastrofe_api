@@ -7,10 +7,12 @@ public class NotificationDTO {
     int id;
     int landmark_id;
     String tag;
+    String description;
 
     NotificationDTO(Notification n) {
-        id = n.id;
-        landmark_id = n.landmark.getId();
-        tag = n.tag.getName();
+        id = n.getId();
+        landmark_id = n.getLandmark().getId();
+        tag = n.getTag().getName();
+        description = n.getDescription();
     }
 }

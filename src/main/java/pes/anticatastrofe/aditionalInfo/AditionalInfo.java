@@ -16,15 +16,15 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AditionalInfo {
-    String street;
-    String city;
-    String state;
-    String postal_code;
-    String country;
-    String path_profile_pic;
+    private String street;
+    private String city;
+    private String state;
+    private String postal_code;
+    private String country;
+    private String path_profile_pic;
     @Id
-    String email;
+    private String email;
 
     @OneToOne
-    Person person;
+    private Person person;
 }

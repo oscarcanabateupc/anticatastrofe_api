@@ -13,11 +13,10 @@ import javax.persistence.Table;
 @Data
 public class User {
     @Id
-    String email;
-    float last_coordinate_x;
-    float last_coordinate_y;
-    float last_coordinate_z;
-    
+    private String email;
+    private float last_coordinate_x;
+    private float last_coordinate_y;
+
     @OneToOne
-    Person person;
+    private Person person;
 }

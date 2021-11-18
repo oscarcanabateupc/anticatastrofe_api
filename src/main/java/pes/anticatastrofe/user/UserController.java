@@ -31,10 +31,10 @@ public class UserController {
     @PostMapping
     public ResponseEntity<Map<String, String>> registerNewUser(@RequestBody User user) {
         Map<String, String> response = new HashMap<>();
-        if (!userService.findByID(user.email).isPresent()) {
+        if (!userService.findByID(user.getEmail()).isPresent()) {
             User u = userService.addNewUser(user);
             response.put("operation_success", "true");
-            response.put("deleted_object_id", u.email);
+            response.put("deleted_object_id", u.getEmail());
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             response.put("message", "user already exists");

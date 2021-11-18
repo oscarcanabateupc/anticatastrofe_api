@@ -26,8 +26,8 @@ class NotificationRepositoryTest {
     @BeforeEach
     void setUp() {
         Person p = new Person("a", "a", 1, "a", "a", null);
-        Tag t = new Tag("t");
-        Landmark l = new Landmark(1, 1, 1, 1, p, t);
+        Tag t = new Tag("t","a");
+        Landmark l = new Landmark(1, 1, 1,"a", p, t);
         personRepository.save(p);
         tagRepository.save(t);
         landmarkRepository.save(l);
@@ -43,9 +43,9 @@ class NotificationRepositoryTest {
 
     Notification getTestNotification() {
         Person p = new Person("a", "a", 1, "a", "a", null);
-        Tag t = new Tag("t");
-        Landmark l = new Landmark(1, 1, 1, 1, p, t);
-        return new Notification(1, t, l);
+        Tag t = new Tag("t","a");
+        Landmark l = new Landmark(1, 1, 1,"a", p, t);
+        return new Notification(1,"a", t, l);
     }
 
     @Test

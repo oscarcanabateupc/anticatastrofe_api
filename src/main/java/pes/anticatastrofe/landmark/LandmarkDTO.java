@@ -7,16 +7,16 @@ public class LandmarkDTO {
     int id;
     float coordinate_x;
     float coordinate_y;
-    float coordinate_z;
     String tag;
     String creator_email;
+    String description;
 
     public LandmarkDTO(Landmark l) {
-        id = l.id;
-        coordinate_x = l.coordinate_x;
-        coordinate_y = l.coordinate_y;
-        coordinate_z = l.coordinate_z;
-        tag = l.tag.getName();
-        creator_email = l.creator.getEmail();
+        id = l.getId();
+        coordinate_x = l.getCoordinate_x();
+        coordinate_y = l.getCoordinate_y();
+        tag = l.getTag().getName();
+        creator_email = l.getCreator().getEmail();
+        description = l.getDescription();
     }
 }

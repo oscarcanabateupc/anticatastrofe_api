@@ -17,9 +17,9 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class Admin {
     @Id
-    String email;
-    String regionality;
+    private String email;
+    private String regionality;
 
     @OneToOne
-    Person person;
+    private Person person;
 }

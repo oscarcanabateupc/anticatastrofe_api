@@ -39,11 +39,11 @@ public class PersonService {
         Person p = personRepository.findById(email).get();
         p.setToken(introduced_token);
         p = personRepository.save(p);
-        return p.token;
+        return p.getToken();
     }
 
     public String getToken(String email) {
         Person p = personRepository.findById(email).get();
-        return p.token;
+        return p.getToken();
     }
 }

@@ -15,5 +15,6 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class Tag {
     @Id
-    String name;
+    private String name;
+    private String description;
 }

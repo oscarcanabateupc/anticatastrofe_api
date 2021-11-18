@@ -18,12 +18,12 @@ import java.util.List;
 @NoArgsConstructor
 public class Person {
     @Id
-    String email;
-    String name;
-    int phone_num;
-    String password;
-    String token;
+    private String email;
+    private String name;
+    private int phone_num;
+    private String password;
+    private String token;
 
     @OneToMany
-    List<Landmark> landmark;
+    private List<Landmark> landmark;
 }

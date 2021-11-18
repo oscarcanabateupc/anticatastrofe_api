@@ -14,12 +14,12 @@ import javax.persistence.Table;
 @Data
 public class MessageWithCoordinates {
     @Id
-    int id;
+    private int id;
 
     @OneToOne
-    Message message;
+    private Message message;
 
     @OneToOne
-    Landmark landmark;
+    private Landmark landmark;
     
 }

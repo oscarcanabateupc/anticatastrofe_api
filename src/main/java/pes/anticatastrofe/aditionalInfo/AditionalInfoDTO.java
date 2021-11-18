@@ -13,12 +13,12 @@ public class AditionalInfoDTO {
     String email;
 
     public AditionalInfoDTO(AditionalInfo ai) {
-        street = ai.street;
-        city = ai.city;
-        state = ai.state;
-        postal_code = ai.postal_code;
-        country = ai.country;
-        path_profile_pic = ai.path_profile_pic;
-        email = ai.email;
+        street = ai.getStreet();
+        city = ai.getCity();
+        state = ai.getState();
+        postal_code = ai.getPostal_code();
+        country = ai.getCountry();
+        path_profile_pic = ai.getPath_profile_pic();
+        email = ai.getEmail();
     }
 }

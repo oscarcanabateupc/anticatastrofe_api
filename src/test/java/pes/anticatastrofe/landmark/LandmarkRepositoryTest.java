@@ -22,7 +22,7 @@ class LandmarkRepositoryTest {
     @BeforeEach
     void setUp() {
         Person p = new Person("a", "a", 1, "a", "a", null);
-        Tag t = new Tag("t");
+        Tag t = new Tag("t","a");
         personRepository.save(p);
         tagRepository.save(t);
     }
@@ -36,8 +36,8 @@ class LandmarkRepositoryTest {
 
     Landmark getTestLandmark() {
         Person p = new Person("a", "a", 1, "a", "a", null);
-        Tag t = new Tag("t");
-        return new Landmark(1, 1, 1, 1, p, t);
+        Tag t = new Tag("t","a");
+        return new Landmark(1, 1, 1,"a", p, t);
     }
 
     @Test

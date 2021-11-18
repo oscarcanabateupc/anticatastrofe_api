@@ -13,15 +13,15 @@ import java.util.Date;
 @Table
 @Data
 public class Message {
-    String content;
-    Date date_sent;
-    Boolean seen;
+    private String content;
+    private Date date_sent;
+    private Boolean seen;
     @Id
-    int id;
+    private int id;
 
     @OneToOne
-    Person sender;
+    private Person sender;
 
     @OneToOne
-    Person recipient;
+    private Person recipient;
 }

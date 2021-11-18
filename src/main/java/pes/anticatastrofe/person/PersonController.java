@@ -88,10 +88,10 @@ public class PersonController {
     @PostMapping
     public ResponseEntity<Map<String, String>> registerNewPerson(@RequestBody Person person) {
         Map<String, String> response = new HashMap<>();
-        if (!personService.findByID(person.email).isPresent()) {
+        if (!personService.findByID(person.getEmail()).isPresent()) {
             Person p = personService.addNewPerson(person);
             response.put("operation_success", "true");
-            response.put("new_object_id", p.email);
+            response.put("new_object_id", p.getEmail());
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             response.put("message", "person already exists");

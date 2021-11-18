@@ -32,10 +32,10 @@ public class AditionalInfoController {
     @PostMapping
     public ResponseEntity<Map<String, String>> registerNewAditionalInfo(@RequestBody AditionalInfo aditionalInfo) {
         Map<String, String> response = new HashMap<>();
-        if (!aditionalInfoService.findByID(aditionalInfo.email).isPresent()) {
+        if (!aditionalInfoService.findByID(aditionalInfo.getEmail()).isPresent()) {
             AditionalInfo ai = aditionalInfoService.addNewAditionalInfo(aditionalInfo);
             response.put("operation_success", "true");
-            response.put("deleted_object_id", ai.email);
+            response.put("deleted_object_id", ai.getEmail());
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             response.put("message", "aditionalInfo already exists");

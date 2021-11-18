@@ -34,11 +34,11 @@ public class LandmarkController {
     @PostMapping
     public ResponseEntity<Map<String, String>> registerNewLandmark(@RequestBody Landmark landmark) {
         Map<String, String> response = new HashMap<>();
-        if (tagService.getTagById(landmark.tag.getName()).isPresent()) {
-            if (!landmarkService.getLandmarkById(landmark.id).isPresent()) {
+        if (tagService.getTagById(landmark.getTag().getName()).isPresent()) {
+            if (!landmarkService.getLandmarkById(landmark.getId()).isPresent()) {
                 Landmark l = landmarkService.addNewLandmark(landmark);
                 response.put("operation_success", "true");
-                response.put("new_landmark_id", Integer.toString(l.id));
+                response.put("new_landmark_id", Integer.toString(l.getId()));
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
                 response.put("message", "landmark already exists");

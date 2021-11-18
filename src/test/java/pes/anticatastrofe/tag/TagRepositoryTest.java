@@ -13,7 +13,7 @@ class TagRepositoryTest {
     @Test
     void testInsert() {
         String tag_id = "test_tag";
-        Tag t = new Tag(tag_id);
+        Tag t = new Tag(tag_id,"a");
         t.setName(tag_id);
 
         testTagRepository.save(t);
@@ -25,7 +25,7 @@ class TagRepositoryTest {
     void testSelect() {
         String tag_id_1 = "test_tag";
         String tag_id_2 = "non_existent_test_tag";
-        Tag t = new Tag(tag_id_1);
+        Tag t = new Tag(tag_id_1,"a");
         t.setName(tag_id_1);
 
         testTagRepository.save(t);
@@ -38,7 +38,7 @@ class TagRepositoryTest {
     @Test
     void testDelete() {
         String tag_id = "test_tag";
-        Tag t = new Tag(tag_id);
+        Tag t = new Tag(tag_id,"a");
         t.setName(tag_id);
 
         testTagRepository.save(t);

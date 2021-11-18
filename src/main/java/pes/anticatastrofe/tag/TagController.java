@@ -32,10 +32,10 @@ public class TagController {
     @PostMapping
     public ResponseEntity<Map<String, String>> registerNewTag(@RequestBody Tag tag) {
         Map<String, String> response = new HashMap<>();
-        if (!tagService.findByID(tag.name).isPresent()) {
+        if (!tagService.findByID(tag.getName()).isPresent()) {
             Tag t = tagService.addNewTag(tag);
             response.put("operation_success", "true");
-            response.put("new_tag_id", t.name);
+            response.put("new_tag_id", t.getName());
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             response.put("message", "tag already exists");

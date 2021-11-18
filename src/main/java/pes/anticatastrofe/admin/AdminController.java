@@ -33,10 +33,10 @@ public class AdminController {
     @PostMapping
     public ResponseEntity<Map<String, String>> registerNewAdmin(@RequestBody Admin admin) {
         Map<String, String> response = new HashMap<>();
-        if (!adminService.findByID(admin.email).isPresent()) {
+        if (!adminService.findByID(admin.getEmail()).isPresent()) {
             Admin a = adminService.addNewAdmin(admin);
             response.put("operation_success", "true");
-            response.put("deleted_object_id", a.email);
+            response.put("deleted_object_id", a.getEmail());
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             response.put("message", "admin already exists");

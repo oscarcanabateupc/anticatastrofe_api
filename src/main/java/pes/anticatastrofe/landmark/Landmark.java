@@ -18,14 +18,14 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class Landmark {
     @Id
-    int id;
-    float coordinate_x;
-    float coordinate_y;
-    float coordinate_z;
+    private int id;
+    private float coordinate_x;
+    private float coordinate_y;
+    private String description;
 
     @ManyToOne
-    Person creator;
+    private Person creator;
 
     @ManyToOne
-    Tag tag;
+    private Tag tag;
 }

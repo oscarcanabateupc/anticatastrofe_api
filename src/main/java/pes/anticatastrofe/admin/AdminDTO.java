@@ -8,7 +8,7 @@ public class AdminDTO {
     String regionality;
 
     public AdminDTO(Admin a) {
-        email = a.email;
-        regionality = a.regionality;
+        email = a.getEmail();
+        regionality = a.getRegionality();
     }
 }

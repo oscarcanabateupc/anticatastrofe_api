@@ -15,11 +15,12 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Notification {
     @Id
-    int id;
+    private int id;
+    private String description;
 
     @ManyToOne
-    Tag tag;
+    private Tag tag;
 
     @OneToOne
-    Landmark landmark;
+    private Landmark landmark;
 }

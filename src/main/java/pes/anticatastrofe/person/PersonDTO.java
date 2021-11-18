@@ -9,9 +9,9 @@ public class PersonDTO {
     String email;
 
     public PersonDTO(Person p) {
-        name = p.name;
-        phone_num = p.phone_num;
-        email = p.email;
+        name = p.getName();
+        phone_num = p.getPhone_num();
+        email = p.getEmail();
     }
 
 }
