@@ -23,6 +23,8 @@ public class Landmark {
     private float coordinate_y;
     private String title;
     private String description;
+    private boolean is_area;
+    private float radius;
 
     @ManyToOne
     private Person creator;
