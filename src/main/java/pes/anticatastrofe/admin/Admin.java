@@ -18,6 +18,5 @@ public class Admin {
     private String regionality;
 
     @OneToOne
-    @JoinColumn(name="email")
     private Person person;
 }

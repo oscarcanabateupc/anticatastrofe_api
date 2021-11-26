@@ -1,7 +1,6 @@
 package pes.anticatastrofe.admin;
 
 import lombok.Data;
-import pes.anticatastrofe.person.Person;
 
 @Data
 public class AdminDTO {

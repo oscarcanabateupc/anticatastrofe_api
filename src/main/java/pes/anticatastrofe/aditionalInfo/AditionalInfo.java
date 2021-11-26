@@ -23,6 +23,5 @@ public class AditionalInfo {
     private String email;
 
     @OneToOne
-    @JoinColumn(name="email")
     private Person person;
 }
