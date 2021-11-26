@@ -51,7 +51,7 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<Map<String, String>> updateUserPosition(@RequestParam String email, float last_coordinate_x, float last_coordinate_y) {
+    public ResponseEntity<Map<String, String>> updateUserPosition(@RequestParam String email, @RequestParam float last_coordinate_x, @RequestParam float last_coordinate_y) {
         Map<String, String> response = new HashMap<>();
         if (userService.findByID(email).isPresent()) {
             User u = userService.updateUserPosition(email,last_coordinate_x,last_coordinate_y);

@@ -14,7 +14,6 @@ public class User {
     private float last_coordinate_x;
     private float last_coordinate_y;
 
-
     @OneToOne
     private Person person;
 }
