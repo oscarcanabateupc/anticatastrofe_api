@@ -71,7 +71,7 @@ public class PersonController {
         }
     }
 
-    @GetMapping(value = "/resetToken")
+    @PutMapping(value = "/resetToken")
     public ResponseEntity<Map<String, String>> resetToken(@RequestParam String email, @RequestParam String introduced_token) {
         Map<String, String> response = new HashMap<>();
         if (personService.findByID(email).isPresent()) {
