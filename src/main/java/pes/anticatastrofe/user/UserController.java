@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pes.anticatastrofe.person.PersonService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,10 +15,12 @@ import java.util.stream.Collectors;
 @RequestMapping(path = "/user")
 public class UserController {
     private final UserService userService;
+    private final PersonService personService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, PersonService personService) {
         this.userService = userService;
+        this.personService = personService;
     }
 
     @GetMapping
@@ -32,6 +35,7 @@ public class UserController {
     public ResponseEntity<Map<String, String>> registerNewUser(@RequestBody User user) {
         Map<String, String> response = new HashMap<>();
         if (!userService.findByID(user.getEmail()).isPresent()) {
+            personService.addNewPerson(user.getPerson());
             User u = userService.addNewUser(user);
             response.put("operation_success", "true");
             response.put("deleted_object_id", u.getEmail());

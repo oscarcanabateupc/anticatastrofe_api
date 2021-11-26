@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pes.anticatastrofe.person.PersonService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,10 +17,12 @@ import java.util.stream.Collectors;
 
 public class AdminController {
     private final AdminService adminService;
+    private final PersonService personService;
 
     @Autowired
-    public AdminController(AdminService adminService) {
+    public AdminController(AdminService adminService, PersonService personService) {
         this.adminService = adminService;
+        this.personService = personService;
     }
 
     @GetMapping
@@ -34,6 +37,7 @@ public class AdminController {
     public ResponseEntity<Map<String, String>> registerNewAdmin(@RequestBody Admin admin) {
         Map<String, String> response = new HashMap<>();
         if (!adminService.findByID(admin.getEmail()).isPresent()) {
+            personService.addNewPerson(admin.getPerson());
             Admin a = adminService.addNewAdmin(admin);
             response.put("operation_success", "true");
             response.put("deleted_object_id", a.getEmail());
