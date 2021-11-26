@@ -23,7 +23,7 @@ public class NotificationController {
     }
 
     @GetMapping
-    public List<NotificationDTO> getPersons() {
+    public List<NotificationDTO> getNotifications() {
         List<Notification> notifications = notificationService.getNotification();
         return notifications.stream()
                 .map(NotificationDTO::new)
@@ -46,7 +46,7 @@ public class NotificationController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Map<String, String>> deletePerson(@RequestParam int id) {
+    public ResponseEntity<Map<String, String>> deleteNotification(@RequestParam int id) {
         Map<String, String> response = new HashMap<>();
         if (notificationService.findByID(id).isPresent()) {
             notificationService.deleteNotification(id);
@@ -54,7 +54,7 @@ public class NotificationController {
             response.put("deleted_object_id", String.valueOf(id));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
-            response.put("message", "person not exists so nothing was deleted");
+            response.put("message", "notification not exists so nothing was deleted");
             response.put("status", HttpStatus.NOT_FOUND.toString());
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }

@@ -46,7 +46,7 @@ public class LandmarkController {
                 return new ResponseEntity<>(response, HttpStatus.ALREADY_REPORTED);
             }
         } else {
-            response.put("message", "tag not exists");
+            response.put("message", "landmark not exists");
             response.put("status", HttpStatus.FAILED_DEPENDENCY.toString());
             return new ResponseEntity<>(response, HttpStatus.FAILED_DEPENDENCY);
         }

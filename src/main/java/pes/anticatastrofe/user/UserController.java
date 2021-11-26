@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pes.anticatastrofe.aditionalInfo.AditionalInfoService;
 import pes.anticatastrofe.person.PersonService;
 
 import java.util.HashMap;
@@ -16,11 +17,13 @@ import java.util.stream.Collectors;
 public class UserController {
     private final UserService userService;
     private final PersonService personService;
+    private final AditionalInfoService aditionalInfoService;
 
     @Autowired
-    public UserController(UserService userService, PersonService personService) {
+    public UserController(UserService userService, PersonService personService, AditionalInfoService aditionalInfoService) {
         this.userService = userService;
         this.personService = personService;
+        this.aditionalInfoService = aditionalInfoService;
     }
 
     @GetMapping
@@ -38,7 +41,7 @@ public class UserController {
             personService.addNewPerson(user.getPerson());
             User u = userService.addNewUser(user);
             response.put("operation_success", "true");
-            response.put("deleted_object_id", u.getEmail());
+            response.put("created_object_id", u.getEmail());
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             response.put("message", "user already exists");
@@ -51,7 +54,9 @@ public class UserController {
     public ResponseEntity<Map<String, String>> deleteUser(@RequestParam String email) {
         Map<String, String> response = new HashMap<>();
         if (userService.findByID(email).isPresent()) {
+            personService.deletePerson(email);
             userService.deleteUser(email);
+            if (aditionalInfoService.findByID(email).isPresent()) aditionalInfoService.deleteAditionalInfo(email);
             response.put("operation_success", "true");
             response.put("deleted_user_id", email);
             return new ResponseEntity<>(response, HttpStatus.OK);

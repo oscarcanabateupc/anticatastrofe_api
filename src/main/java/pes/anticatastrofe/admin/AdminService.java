@@ -22,7 +22,7 @@ public class AdminService {
         return adminRepository.save(admin);
     }
 
-    public void deleteAditionalInfo(String email) {
+    public void deleteAdmin(String email) {
         adminRepository.deleteById(email);
     }
 

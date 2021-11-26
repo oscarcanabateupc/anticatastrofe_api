@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pes.anticatastrofe.aditionalInfo.AditionalInfoService;
 import pes.anticatastrofe.person.PersonService;
 
 import java.util.HashMap;
@@ -18,11 +19,13 @@ import java.util.stream.Collectors;
 public class AdminController {
     private final AdminService adminService;
     private final PersonService personService;
+    private final AditionalInfoService aditionalInfoService;
 
     @Autowired
-    public AdminController(AdminService adminService, PersonService personService) {
+    public AdminController(AdminService adminService, PersonService personService, AditionalInfoService aditionalInfoService) {
         this.adminService = adminService;
         this.personService = personService;
+        this.aditionalInfoService = aditionalInfoService;
     }
 
     @GetMapping
@@ -40,7 +43,7 @@ public class AdminController {
             personService.addNewPerson(admin.getPerson());
             Admin a = adminService.addNewAdmin(admin);
             response.put("operation_success", "true");
-            response.put("deleted_object_id", a.getEmail());
+            response.put("created_object_id", a.getEmail());
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             response.put("message", "admin already exists");
@@ -53,7 +56,9 @@ public class AdminController {
     public ResponseEntity<Map<String, String>> deleteAdmin(@RequestParam String email) {
         Map<String, String> response = new HashMap<>();
         if (adminService.findByID(email).isPresent()) {
-            adminService.deleteAditionalInfo(email);
+            personService.deletePerson(email);
+            adminService.deleteAdmin(email);
+            if (aditionalInfoService.findByID(email).isPresent()) aditionalInfoService.deleteAditionalInfo(email);
             response.put("operation_success", "true");
             response.put("deleted_person_id", email);
             return new ResponseEntity<>(response, HttpStatus.OK);
