@@ -50,6 +50,21 @@ public class UserController {
         }
     }
 
+    @PutMapping
+    public ResponseEntity<Map<String, String>> updateUserPosition(@RequestParam String email, float last_coordinate_x, float last_coordinate_y) {
+        Map<String, String> response = new HashMap<>();
+        if (userService.findByID(email).isPresent()) {
+            User u = userService.updateUserPosition(email,last_coordinate_x,last_coordinate_y);
+            response.put("operation_success", "true");
+            response.put("modified_object_id", u.getEmail());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            response.put("message", "user not exists exists");
+            response.put("status", HttpStatus.ALREADY_REPORTED.toString());
+            return new ResponseEntity<>(response, HttpStatus.ALREADY_REPORTED);
+        }
+    }
+
     @DeleteMapping
     public ResponseEntity<Map<String, String>> deleteUser(@RequestParam String email) {
         Map<String, String> response = new HashMap<>();

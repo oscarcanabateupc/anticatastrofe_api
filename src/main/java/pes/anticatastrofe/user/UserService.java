@@ -30,4 +30,12 @@ public class UserService {
     public Optional<User> findByID(String email) {
         return userRepository.findById(email);
     }
+
+    public User updateUserPosition(String email, float last_coordinate_x, float last_coordinate_y) {
+        User u = userRepository.findById(email).get();
+        u.setLast_coordinate_x(last_coordinate_x);
+        u.setLast_coordinate_y(last_coordinate_y);
+        u = userRepository.save(u);
+        return u;
+    }
 }
