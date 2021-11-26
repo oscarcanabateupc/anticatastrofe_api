@@ -15,5 +15,6 @@ public class User {
     private float last_coordinate_y;
 
     @OneToOne
+    @JoinColumn(name="email")
     private Person person;
 }
