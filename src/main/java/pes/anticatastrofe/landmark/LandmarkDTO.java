@@ -17,7 +17,9 @@ public class LandmarkDTO {
         coordinate_x = l.getCoordinate_x();
         coordinate_y = l.getCoordinate_y();
         tag = l.getTag().getName();
-        creator_email = l.getCreator().getEmail();
+        if (l.getCreator() != null) {
+            creator_email = l.getCreator().getEmail();
+        }
         title = l.getTitle();
         description = l.getDescription();
     }

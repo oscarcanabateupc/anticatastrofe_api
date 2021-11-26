@@ -13,7 +13,9 @@ public class AdminDTO {
     public AdminDTO(Admin a) {
         email = a.getEmail();
         regionality = a.getRegionality();
-        name = a.getPerson().getEmail();
-        phone_num = a.getPerson().getPhone_num();
+        if (a.getPerson() != null) {
+            name = a.getPerson().getEmail();
+            phone_num = a.getPerson().getPhone_num();
+        }
     }
 }

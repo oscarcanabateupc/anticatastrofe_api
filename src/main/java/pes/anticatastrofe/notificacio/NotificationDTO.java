@@ -12,7 +12,9 @@ public class NotificationDTO {
     NotificationDTO(Notification n) {
         id = n.getId();
         landmark_id = n.getLandmark().getId();
-        tag = n.getTag().getName();
+        if (n.getTag() != null) {
+            tag = n.getTag().getName();
+        }
         description = n.getDescription();
     }
 }

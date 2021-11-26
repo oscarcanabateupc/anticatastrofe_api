@@ -3,10 +3,7 @@ package pes.anticatastrofe.user;
 import lombok.Data;
 import pes.anticatastrofe.person.Person;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table

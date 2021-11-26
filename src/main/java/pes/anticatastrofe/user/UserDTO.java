@@ -15,7 +15,9 @@ public class UserDTO {
         email = u.getEmail();
         last_coordinate_x = u.getLast_coordinate_x();
         last_coordinate_y = u.getLast_coordinate_y();
-        name = u.getPerson().getEmail();
-        phone_num = u.getPerson().getPhone_num();
+        if (u.getPerson() != null) {
+            name = u.getPerson().getEmail();
+            phone_num = u.getPerson().getPhone_num();
+        }
     }
 }
