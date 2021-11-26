@@ -4,11 +4,13 @@ import lombok.Data;
 
 @Data
 public class TagDTO {
-    String name;
-    String description;
+    private String name;
+    private String description;
+    private float color;
 
     public TagDTO(Tag t) {
         name = t.getName();
         description = t.getDescription();
+        color = t.getColor();
     }
 }

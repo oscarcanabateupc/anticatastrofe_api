@@ -17,4 +17,5 @@ public class Tag {
     @Id
     private String name;
     private String description;
+    private float color;
 }

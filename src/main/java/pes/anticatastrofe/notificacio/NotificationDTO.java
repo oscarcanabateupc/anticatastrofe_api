@@ -4,10 +4,10 @@ import lombok.Data;
 
 @Data
 public class NotificationDTO {
-    int id;
-    int landmark_id;
-    String tag;
-    String description;
+    private int id;
+    private int landmark_id;
+    private String tag;
+    private String description;
 
     NotificationDTO(Notification n) {
         id = n.getId();

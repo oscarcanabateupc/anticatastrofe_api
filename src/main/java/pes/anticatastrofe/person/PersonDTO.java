@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class PersonDTO {
-    String name;
-    int phone_num;
-    String email;
+    private String name;
+    private int phone_num;
+    private String email;
 
     public PersonDTO(Person p) {
         name = p.getName();

@@ -21,6 +21,7 @@ public class Landmark {
     private int id;
     private float coordinate_x;
     private float coordinate_y;
+    private String title;
     private String description;
 
     @ManyToOne

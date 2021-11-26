@@ -5,9 +5,9 @@ import lombok.Data;
 
 @Data
 public class UserDTO {
-    String email;
-    float last_coordinate_x;
-    float last_coordinate_y;
+    private String email;
+    private float last_coordinate_x;
+    private float last_coordinate_y;
     private String name;
     private int phone_num;
 

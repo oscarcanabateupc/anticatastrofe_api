@@ -4,13 +4,13 @@ import lombok.Data;
 
 @Data
 public class AditionalInfoDTO {
-    String street;
-    String city;
-    String state;
-    String postal_code;
-    String country;
-    String path_profile_pic;
-    String email;
+    private String street;
+    private String city;
+    private String state;
+    private String postal_code;
+    private String country;
+    private String path_profile_pic;
+    private String email;
 
     public AditionalInfoDTO(AditionalInfo ai) {
         street = ai.getStreet();
