@@ -37,6 +37,7 @@ public class Message {
         seen = m.getSeen();
         sender = s;
         recipient = r;
+        id = m.getId();
     }
 
     public Message(MessageWithCoordinatesDTOIn m, Person s, Person r) {
@@ -45,5 +46,6 @@ public class Message {
         seen = m.getSeen();
         sender = s;
         recipient = r;
+        id = m.getId();
     }
 }

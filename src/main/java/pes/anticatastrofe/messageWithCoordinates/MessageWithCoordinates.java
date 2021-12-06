@@ -31,5 +31,6 @@ public class MessageWithCoordinates {
         id = m.getId();
         message = m2;
         landmark = l;
+        id = m.getId();
     }
 }
