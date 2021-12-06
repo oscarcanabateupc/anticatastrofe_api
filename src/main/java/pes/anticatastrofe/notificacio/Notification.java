@@ -23,4 +23,12 @@ public class Notification {
 
     @OneToOne
     private Landmark landmark;
+
+    public Notification(NotificationDTOIn n, Tag t, Landmark l)
+    {
+        id = n.getLandmark_id();
+        description = n.getDescription();
+        tag = t;
+        landmark = l;
+    }
 }

@@ -24,4 +24,15 @@ public class AditionalInfo {
 
     @OneToOne
     private Person person;
+
+    public AditionalInfo(AditionalInfoDTOIn a,Person p){
+        street = a.getStreet();
+        city = a.getCity();
+        state = a.getState();
+        postal_code = a.getPostal_code();
+        country = a.getCountry();
+        path_profile_pic = a.getPath_profile_pic();
+        email = a.getEmail();
+        person = p;
+    }
 }
