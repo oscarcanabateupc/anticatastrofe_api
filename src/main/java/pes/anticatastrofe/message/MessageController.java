@@ -5,17 +5,22 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.hibernate.id.IntegralDataTypeHolder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pes.anticatastrofe.person.Person;
+import pes.anticatastrofe.person.PersonService;
 import pes.anticatastrofe.tag.TagDTO;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -23,10 +28,12 @@ import java.util.stream.Collectors;
 public class MessageController {
     @Autowired
     private final MessageService messageService;
+    private final PersonService personService;
 
     @Autowired
-    public MessageController(MessageService MessageService) {
+    public MessageController(MessageService MessageService, PersonService personService) {
         this.messageService = MessageService;
+        this.personService = personService;
     }
 
     @ApiResponse(description = "Success",responseCode = "200",content = @Content(array = @ArraySchema(schema = @Schema(implementation = MessageDTO.class))))
@@ -43,14 +50,22 @@ public class MessageController {
             @ApiResponse(description = "Duplicated object", responseCode = "208", content = @Content(schema = @Schema(hidden = true)))}
     )
     @PostMapping
-    public ResponseEntity<Map<String, String>> registerNewMessage(@RequestBody Message Message) {
+    public ResponseEntity<Map<String, String>> registerNewMessage(@RequestBody MessageDTOIn messageDTOIn) {
         Map<String, String> response = new HashMap<>();
-        if (!messageService.findByID(Message.getId()).isPresent()) {
-            Message m= messageService.addNewMessage(Message);
-            response.put("operation_success", "true");
-            response.put("new_Message_id", String.valueOf(m.getId()));
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else throw new DuplicateKeyException("");
+        Optional<Message> message = messageService.findByID(messageDTOIn.getId());
+        Optional<Person> recipient = personService.findByID(messageDTOIn.getRecipient_email());
+        Optional<Person> sender = personService.findByID(messageDTOIn.getSender_email());
+        if (message.isPresent()) throw new DuplicateKeyException("");
+        if (!recipient.isPresent()) throw new DataIntegrityViolationException("");
+        if (!sender.isPresent()) throw new DataIntegrityViolationException("");
+
+        Person r = recipient.get();
+        Person s = sender.get();
+        Message m = new Message(messageDTOIn,s,r);
+        m= messageService.addNewMessage(m);
+        response.put("operation_success", "true");
+        response.put("new_Message_id", String.valueOf(m.getId()));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @ApiResponses({

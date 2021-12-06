@@ -1,6 +1,8 @@
 package pes.anticatastrofe.message;
 
 import lombok.Data;
+import pes.anticatastrofe.messageWithCoordinates.MessageWithCoordinates;
+import pes.anticatastrofe.messageWithCoordinates.MessageWithCoordinatesDTOIn;
 import pes.anticatastrofe.person.Person;
 
 import javax.persistence.Entity;
@@ -24,4 +26,20 @@ public class Message {
 
     @OneToOne
     private Person recipient;
+
+    public Message(MessageDTOIn m, Person s, Person r) {
+        content = m.getContent();
+        date_sent = m.getDate_sent();
+        seen = m.getSeen();
+        sender = s;
+        recipient = r;
+    }
+
+    public Message(MessageWithCoordinatesDTOIn m, Person s, Person r) {
+        content = m.getContent();
+        date_sent = m.getDate_sent();
+        seen = m.getSeen();
+        sender = s;
+        recipient = r;
+    }
 }

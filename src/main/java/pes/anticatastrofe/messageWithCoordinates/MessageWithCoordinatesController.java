@@ -6,16 +6,24 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pes.anticatastrofe.landmark.Landmark;
+import pes.anticatastrofe.landmark.LandmarkService;
+import pes.anticatastrofe.message.Message;
+import pes.anticatastrofe.message.MessageService;
+import pes.anticatastrofe.person.Person;
+import pes.anticatastrofe.person.PersonService;
 import pes.anticatastrofe.tag.TagDTO;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -23,10 +31,16 @@ import java.util.stream.Collectors;
 public class MessageWithCoordinatesController {
     @Autowired
     private final MessageWithCoordinatesService messageWithCoordinatesService;
+    private final MessageService messageService;
+    private final LandmarkService landmarkService;
+    private final PersonService personService;
 
     @Autowired
-    public MessageWithCoordinatesController(MessageWithCoordinatesService messageWithCoordinatesService) {
+    public MessageWithCoordinatesController(MessageWithCoordinatesService messageWithCoordinatesService,LandmarkService landmarkService, MessageService messageService,PersonService personService) {
         this.messageWithCoordinatesService = messageWithCoordinatesService;
+        this.messageService = messageService;
+        this.landmarkService = landmarkService;
+        this.personService = personService;
     }
 
     @ApiResponse(description = "Success",responseCode = "200",content = @Content(array = @ArraySchema(schema = @Schema(implementation = MessageWithCoordinatesDTO.class))))
@@ -43,14 +57,30 @@ public class MessageWithCoordinatesController {
             @ApiResponse(description = "Duplicated object", responseCode = "208", content = @Content(schema = @Schema(hidden = true)))}
     )
     @PostMapping
-    public ResponseEntity<Map<String, String>> registerNewMessage(@RequestBody MessageWithCoordinates Message) {
+    public ResponseEntity<Map<String, String>> registerNewMessage(@RequestBody MessageWithCoordinatesDTOIn messageWithCoordinatesDTOIn) {
         Map<String, String> response = new HashMap<>();
-        if (!messageWithCoordinatesService.findByID(Message.getId()).isPresent()) {
-            MessageWithCoordinates m= messageWithCoordinatesService.addNewMessage(Message);
-            response.put("operation_success", "true");
-            response.put("new_Message_id", String.valueOf(m.getId()));
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else throw new DuplicateKeyException("");
+        Optional<MessageWithCoordinates> messageWithCoordinates = messageWithCoordinatesService.findByID(messageWithCoordinatesDTOIn.getId());
+        Optional<Message> message = messageService.findByID(messageWithCoordinatesDTOIn.getId());
+        Optional<Landmark> landmark = landmarkService.findByID(messageWithCoordinatesDTOIn.getLandmark_id());
+        Optional<Person> recipient = personService.findByID(messageWithCoordinatesDTOIn.getRecipient_email());
+        Optional<Person> sender = personService.findByID(messageWithCoordinatesDTOIn.getSender_email());
+        if (messageWithCoordinates.isPresent()) throw new DuplicateKeyException("");
+        if (!message.isPresent()) throw new DataIntegrityViolationException("");
+        if (!landmark.isPresent()) throw new DataIntegrityViolationException("");
+        if (!recipient.isPresent()) throw new DataIntegrityViolationException("");
+        if (!sender.isPresent()) throw new DataIntegrityViolationException("");
+
+        Landmark l = landmark.get();
+        Person r = recipient.get();
+        Person s = sender.get();
+        Message m = new Message(messageWithCoordinatesDTOIn,s,r);
+        m = messageService.addNewMessage(m);
+        MessageWithCoordinates mwc = new MessageWithCoordinates(messageWithCoordinatesDTOIn,m,l);
+        mwc= messageWithCoordinatesService.addNewMessage(mwc);
+        response.put("operation_success", "true");
+        response.put("new_Message_id", String.valueOf(m.getId()));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
     }
 
     @ApiResponses({

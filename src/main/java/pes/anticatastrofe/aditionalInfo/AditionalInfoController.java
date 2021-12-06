@@ -53,7 +53,7 @@ public class AditionalInfoController {
         Map<String, String> response = new HashMap<>();
         Optional<Person> person = personService.findByID(aditionalInfoDTOIn.getEmail());
         Optional<AditionalInfo> aditional_info = aditionalInfoService.findByID(aditionalInfoDTOIn.getEmail());
-        if (person.isPresent()) throw new DataIntegrityViolationException("");
+        if (!person.isPresent()) throw new DataIntegrityViolationException("");
         if (aditional_info.isPresent()) throw new DuplicateKeyException("");
 
         Person p = person.get();

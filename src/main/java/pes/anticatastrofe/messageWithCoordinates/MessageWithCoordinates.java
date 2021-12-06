@@ -21,5 +21,11 @@ public class MessageWithCoordinates {
 
     @OneToOne
     private Landmark landmark;
-    
+
+    public MessageWithCoordinates(MessageWithCoordinatesDTOIn m, Message m2,Landmark l)
+    {
+        id = m.getId();
+        message = m2;
+        landmark = l;
+    }
 }

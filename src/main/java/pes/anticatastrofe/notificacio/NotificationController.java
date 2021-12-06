@@ -60,8 +60,8 @@ public class NotificationController {
         Optional<Landmark> landmark = landmarkService.findByID(notificationDTOIn.getLandmark_id());
         Optional<Tag> tag = tagService.findByID(notificationDTOIn.getTag());
         if (notification.isPresent()) throw new DuplicateKeyException("");
-        if (landmark.isPresent()) throw new DataIntegrityViolationException("");
-        if (tag.isPresent()) throw new DataIntegrityViolationException("");
+        if (!landmark.isPresent()) throw new DataIntegrityViolationException("");
+        if (!tag.isPresent()) throw new DataIntegrityViolationException("");
 
         Tag t = tag.get();
         Landmark l = landmark.get();
