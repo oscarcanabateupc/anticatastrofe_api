@@ -66,7 +66,7 @@ public class MessageWithCoordinatesController {
         Optional<Person> recipient = personService.findByID(messageWithCoordinatesDTOIn.getRecipient_email());
         Optional<Person> sender = personService.findByID(messageWithCoordinatesDTOIn.getSender_email());
         if (messageWithCoordinates.isPresent()) throw new DuplicateKeyException("");
-        if (message.isPresent()) throw new DataIntegrityViolationException("");
+        if (message.isPresent()) throw new DuplicateKeyException("");
         if (!landmark.isPresent()) throw new DataIntegrityViolationException("");
         if (!recipient.isPresent()) throw new DataIntegrityViolationException("");
         if (!sender.isPresent()) throw new DataIntegrityViolationException("");
