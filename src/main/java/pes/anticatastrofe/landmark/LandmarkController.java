@@ -12,23 +12,29 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pes.anticatastrofe.person.Person;
+import pes.anticatastrofe.person.PersonService;
+import pes.anticatastrofe.tag.Tag;
 import pes.anticatastrofe.tag.TagDTO;
 import pes.anticatastrofe.tag.TagService;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/landmark")
 public class LandmarkController {
     private final LandmarkService landmarkService;
+    private final PersonService personService;
     private final TagService tagService;
 
     @Autowired
-    public LandmarkController(LandmarkService landmarkService, TagService tagService) {
+    public LandmarkController(LandmarkService landmarkService, PersonService personService,TagService tagService) {
         this.landmarkService = landmarkService;
+        this.personService = personService;
         this.tagService = tagService;
     }
 
@@ -46,16 +52,19 @@ public class LandmarkController {
             @ApiResponse(description = "Duplicated object", responseCode = "208", content = @Content(schema = @Schema(hidden = true)))}
     )
     @PostMapping
-    public ResponseEntity<Map<String, String>> registerNewLandmark(@RequestBody Landmark landmark) {
+    public ResponseEntity<Map<String, String>> registerNewLandmark(@RequestBody LandMarkDTOin landMarkDTOin) {
+        Optional<Person> creator = personService.findByID(landMarkDTOin.getCreator_email());
+        Optional<Tag> tag = tagService.findByID(landMarkDTOin.getTag_name());
+        if (!creator.isPresent()) throw new DataIntegrityViolationException("");
+        if (!tag.isPresent()) throw new DataIntegrityViolationException("");
+        if (landmarkService.getLandmarkById(landMarkDTOin.getId()).isPresent()) throw new DuplicateKeyException("");
+
+        Landmark l = new Landmark(landMarkDTOin,creator.get(),tag.get());
+        l = landmarkService.addNewLandmark(l);
         Map<String, String> response = new HashMap<>();
-        if (tagService.getTagById(landmark.getTag().getName()).isPresent()) {
-            if (!landmarkService.getLandmarkById(landmark.getId()).isPresent()) {
-                Landmark l = landmarkService.addNewLandmark(landmark);
-                response.put("operation_success", "true");
-                response.put("new_landmark_id", Integer.toString(l.getId()));
-                return new ResponseEntity<>(response, HttpStatus.OK);
-            } else throw new DuplicateKeyException("");
-        } else throw new DataIntegrityViolationException("");
+        response.put("operation_success", "true");
+        response.put("new_landmark_id", Integer.toString(l.getId()));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @ApiResponses({

@@ -13,12 +13,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pes.anticatastrofe.aditionalInfo.AditionalInfoService;
+import pes.anticatastrofe.person.Person;
 import pes.anticatastrofe.person.PersonService;
 import pes.anticatastrofe.tag.TagDTO;
+import pes.anticatastrofe.user.User;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -50,11 +53,14 @@ public class AdminController {
             @ApiResponse(description = "Duplicated object", responseCode = "208", content = @Content(schema = @Schema(hidden = true)))}
     )
     @PostMapping
-    public ResponseEntity<Map<String, String>> registerNewAdmin(@RequestBody Admin admin) {
+    public ResponseEntity<Map<String, String>> registerNewAdmin(@RequestBody AdminDTOIn adminDTOIn) {
         Map<String, String> response = new HashMap<>();
-        if (!adminService.findByID(admin.getEmail()).isPresent()) {
-            personService.addNewPerson(admin.getPerson());
-            Admin a = adminService.addNewAdmin(admin);
+        Optional<Person> person = personService.findByID(adminDTOIn.getEmail());
+        if (!person.isPresent()) {
+            Person p = new Person(adminDTOIn);
+            personService.addNewPerson(p);
+            Admin a = new Admin(adminDTOIn,p);
+            a = adminService.addNewAdmin(a);
             response.put("operation_success", "true");
             response.put("created_object_id", a.getEmail());
             return new ResponseEntity<>(response, HttpStatus.OK);

@@ -12,12 +12,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pes.anticatastrofe.aditionalInfo.AditionalInfoService;
+import pes.anticatastrofe.person.Person;
 import pes.anticatastrofe.person.PersonService;
 import pes.anticatastrofe.tag.TagDTO;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -48,11 +50,14 @@ public class UserController {
             @ApiResponse(description = "Duplicated object", responseCode = "208", content = @Content(schema = @Schema(hidden = true)))}
     )
     @PostMapping
-    public ResponseEntity<Map<String, String>> registerNewUser(@RequestBody User user) {
+    public ResponseEntity<Map<String, String>> registerNewUser(@RequestBody UserDTOIn userDTOIn) {
         Map<String, String> response = new HashMap<>();
-        if (!userService.findByID(user.getEmail()).isPresent()) {
-            personService.addNewPerson(user.getPerson());
-            User u = userService.addNewUser(user);
+        Optional<Person> person = personService.findByID(userDTOIn.getEmail());
+        if (!person.isPresent()) {
+            Person p = new Person(userDTOIn);
+            personService.addNewPerson(p);
+            User u = new User(userDTOIn,p);
+            u = userService.addNewUser(u);
             response.put("operation_success", "true");
             response.put("created_object_id", u.getEmail());
             return new ResponseEntity<>(response, HttpStatus.OK);

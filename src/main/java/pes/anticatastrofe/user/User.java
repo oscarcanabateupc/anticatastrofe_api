@@ -16,4 +16,11 @@ public class User {
 
     @OneToOne
     private Person person;
+
+    public User(UserDTOIn u, Person p){
+        email = u.getEmail();
+        last_coordinate_x = u.getLast_coordinate_x();
+        last_coordinate_y = u.getLast_coordinate_y();
+        person = p;
+    }
 }

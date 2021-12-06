@@ -19,4 +19,10 @@ public class Admin {
 
     @OneToOne
     private Person person;
+
+    public Admin (AdminDTOIn a, Person p){
+        email = a.getEmail();
+        regionality = a.getRegionality();
+        person = p;
+    }
 }
