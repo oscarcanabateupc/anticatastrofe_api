@@ -49,7 +49,8 @@ public class LandmarkController {
 
     @ApiResponses({
             @ApiResponse(description = "Success",responseCode = "200",content = @Content(mediaType = "application/json",schema = @Schema(implementation = LandmarkDTO.class))),
-            @ApiResponse(description = "Duplicated object", responseCode = "208", content = @Content(schema = @Schema(hidden = true)))}
+            @ApiResponse(description = "Duplicated object", responseCode = "208", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(description = "Failed dependency on object", responseCode = "424", content = @Content(schema = @Schema(hidden = true)))}
     )
     @PostMapping
     public ResponseEntity<Map<String, String>> registerNewLandmark(@RequestBody LandMarkDTOin landMarkDTOin) {

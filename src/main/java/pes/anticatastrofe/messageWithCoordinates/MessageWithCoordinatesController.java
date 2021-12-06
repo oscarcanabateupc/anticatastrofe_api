@@ -54,7 +54,8 @@ public class MessageWithCoordinatesController {
 
     @ApiResponses({
             @ApiResponse(description = "Success",responseCode = "200",content = @Content(mediaType = "application/json",schema = @Schema(implementation = MessageWithCoordinatesDTO.class))),
-            @ApiResponse(description = "Duplicated object", responseCode = "208", content = @Content(schema = @Schema(hidden = true)))}
+            @ApiResponse(description = "Duplicated object", responseCode = "208", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(description = "Failed dependency on object", responseCode = "424", content = @Content(schema = @Schema(hidden = true)))}
     )
     @PostMapping
     public ResponseEntity<Map<String, String>> registerNewMessage(@RequestBody MessageWithCoordinatesDTOIn messageWithCoordinatesDTOIn) {
@@ -65,7 +66,7 @@ public class MessageWithCoordinatesController {
         Optional<Person> recipient = personService.findByID(messageWithCoordinatesDTOIn.getRecipient_email());
         Optional<Person> sender = personService.findByID(messageWithCoordinatesDTOIn.getSender_email());
         if (messageWithCoordinates.isPresent()) throw new DuplicateKeyException("");
-        if (!message.isPresent()) throw new DataIntegrityViolationException("");
+        if (message.isPresent()) throw new DataIntegrityViolationException("");
         if (!landmark.isPresent()) throw new DataIntegrityViolationException("");
         if (!recipient.isPresent()) throw new DataIntegrityViolationException("");
         if (!sender.isPresent()) throw new DataIntegrityViolationException("");
@@ -76,9 +77,9 @@ public class MessageWithCoordinatesController {
         Message m = new Message(messageWithCoordinatesDTOIn,s,r);
         m = messageService.addNewMessage(m);
         MessageWithCoordinates mwc = new MessageWithCoordinates(messageWithCoordinatesDTOIn,m,l);
-        mwc= messageWithCoordinatesService.addNewMessage(mwc);
+        mwc = messageWithCoordinatesService.addNewMessage(mwc);
         response.put("operation_success", "true");
-        response.put("new_Message_id", String.valueOf(m.getId()));
+        response.put("new_Message_id", String.valueOf(mwc.getId()));
         return new ResponseEntity<>(response, HttpStatus.OK);
 
     }
