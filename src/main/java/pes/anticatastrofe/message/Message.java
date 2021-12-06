@@ -1,6 +1,8 @@
 package pes.anticatastrofe.message;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import pes.anticatastrofe.messageWithCoordinates.MessageWithCoordinates;
 import pes.anticatastrofe.messageWithCoordinates.MessageWithCoordinatesDTOIn;
 import pes.anticatastrofe.person.Person;
@@ -14,6 +16,8 @@ import java.util.Date;
 @Entity
 @Table
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Message {
     private String content;
     private Date date_sent;

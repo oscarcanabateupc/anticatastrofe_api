@@ -1,6 +1,8 @@
 package pes.anticatastrofe.messageWithCoordinates;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import pes.anticatastrofe.landmark.Landmark;
 import pes.anticatastrofe.message.Message;
 
@@ -12,6 +14,8 @@ import javax.persistence.Table;
 @Entity
 @Table
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class MessageWithCoordinates {
     @Id
     private int id;
