@@ -1,9 +1,17 @@
 package pes.anticatastrofe.messageWithCoordinates;
 
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pes.anticatastrofe.tag.TagDTO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +29,7 @@ public class MessageWithCoordinatesController {
         this.messageWithCoordinatesService = messageWithCoordinatesService;
     }
 
+    @ApiResponse(description = "Success",responseCode = "200",content = @Content(array = @ArraySchema(schema = @Schema(implementation = MessageWithCoordinatesDTO.class))))
     @GetMapping
     public List<MessageWithCoordinatesDTO> getMessages() {
         List<MessageWithCoordinates> pins = messageWithCoordinatesService.getMessages();
@@ -29,6 +38,10 @@ public class MessageWithCoordinatesController {
                 .collect(Collectors.toList());
     }
 
+    @ApiResponses({
+            @ApiResponse(description = "Success",responseCode = "200",content = @Content(mediaType = "application/json",schema = @Schema(implementation = MessageWithCoordinatesDTO.class))),
+            @ApiResponse(description = "Duplicated object", responseCode = "208", content = @Content(schema = @Schema(hidden = true)))}
+    )
     @PostMapping
     public ResponseEntity<Map<String, String>> registerNewMessage(@RequestBody MessageWithCoordinates Message) {
         Map<String, String> response = new HashMap<>();
@@ -37,13 +50,13 @@ public class MessageWithCoordinatesController {
             response.put("operation_success", "true");
             response.put("new_Message_id", String.valueOf(m.getId()));
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            response.put("message", "Message already exists");
-            response.put("status", HttpStatus.ALREADY_REPORTED.toString());
-            return new ResponseEntity<>(response, HttpStatus.ALREADY_REPORTED);
-        }
+        } else throw new DuplicateKeyException("");
     }
 
+    @ApiResponses({
+            @ApiResponse(description = "Success",responseCode = "200"),
+            @ApiResponse(description = "Object not exists", responseCode = "404", content = @Content(schema = @Schema(hidden = true)))}
+    )
     @DeleteMapping
     public ResponseEntity<Map<String, String>> deleteMessage(@RequestParam int id) {
         Map<String, String> response = new HashMap<>();
@@ -52,10 +65,6 @@ public class MessageWithCoordinatesController {
             response.put("operation_success", "true");
             response.put("deleted_Message_id", String.valueOf(id));
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            response.put("message", "Message not exists so nothing was deleted");
-            response.put("status", HttpStatus.NOT_FOUND.toString());
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        }
+        } else throw new EmptyResultDataAccessException(1);
     }
 }

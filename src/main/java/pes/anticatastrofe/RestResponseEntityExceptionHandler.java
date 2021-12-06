@@ -1,4 +1,4 @@
-package pes.ApiExceptions;
+package pes.anticatastrofe;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,6 +12,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
+
+import javax.security.auth.login.CredentialException;
 
 
 @RestControllerAdvice
@@ -35,9 +37,9 @@ public class RestResponseEntityExceptionHandler
     }
 
     @ExceptionHandler(value
-            = { HttpClientErrorException.Forbidden.class})
-    protected ResponseEntity<Object> handleConflictForbidden(
-            RuntimeException ex, WebRequest request) {
+            = { CredentialException.class})
+    protected ResponseEntity<Object> handleCredentialException(
+            CredentialException ex, WebRequest request) {
         String bodyOfResponse = "Bad credentials, no confidential info for you";
         return handleExceptionInternal(ex, bodyOfResponse,
                 new HttpHeaders(), HttpStatus.FORBIDDEN, request);
@@ -47,16 +49,16 @@ public class RestResponseEntityExceptionHandler
             = { EmptyResultDataAccessException.class})
     protected ResponseEntity<Object> handleConflictEmptyResultDataAccessException(
             RuntimeException ex, WebRequest request) {
-        String bodyOfResponse = "Data object not exists so nothing was deleted";
+        String bodyOfResponse = "Data object not exists so no operation took place";
         return handleExceptionInternal(ex, bodyOfResponse,
-                new HttpHeaders(), HttpStatus.NO_CONTENT, request);
+                new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
     @ExceptionHandler(value
             = { DataIntegrityViolationException.class})
     protected ResponseEntity<Object> handleConflictDataIntegrityViolationException(
             RuntimeException ex, WebRequest request) {
-        String bodyOfResponse = "Dependency not fulfilled, does this object need anotherone witch is not created?";
+        String bodyOfResponse = "Dependency not fulfilled, does this object need another one which is not created?";
         return handleExceptionInternal(ex, bodyOfResponse,
                 new HttpHeaders(), HttpStatus.FAILED_DEPENDENCY, request);
     }
