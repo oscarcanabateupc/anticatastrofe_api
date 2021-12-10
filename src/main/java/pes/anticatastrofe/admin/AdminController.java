@@ -75,8 +75,8 @@ public class AdminController {
     public ResponseEntity<Map<String, String>> deleteAdmin(@RequestParam String email) {
         Map<String, String> response = new HashMap<>();
         if (adminService.findByID(email).isPresent()) {
-            personService.deletePerson(email);
             adminService.deleteAdmin(email);
+            personService.deletePerson(email);
             if (aditionalInfoService.findByID(email).isPresent()) aditionalInfoService.deleteAditionalInfo(email);
             response.put("operation_success", "true");
             response.put("deleted_person_id", email);

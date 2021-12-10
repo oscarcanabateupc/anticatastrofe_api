@@ -83,8 +83,8 @@ public class UserController {
     public ResponseEntity<Map<String, String>> deleteUser(@RequestParam String email) {
         Map<String, String> response = new HashMap<>();
         if (userService.findByID(email).isPresent()) {
-            personService.deletePerson(email);
             userService.deleteUser(email);
+            personService.deletePerson(email);
             if (aditionalInfoService.findByID(email).isPresent()) aditionalInfoService.deleteAditionalInfo(email);
             response.put("operation_success", "true");
             response.put("deleted_user_id", email);
