@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import pes.anticatastrofe.person.Person;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table
@@ -19,6 +20,8 @@ public class AditionalInfo {
     private String postal_code;
     private String country;
     private String path_profile_pic;
+    private String blood_type;
+    private Date birth_date;
     @Id
     private String email;
 
@@ -32,6 +35,8 @@ public class AditionalInfo {
         postal_code = a.getPostal_code();
         country = a.getCountry();
         path_profile_pic = a.getPath_profile_pic();
+        blood_type = a.getBlood_type();
+        birth_date = a.getBirth_date();
         email = a.getEmail();
         person = p;
     }

@@ -2,6 +2,8 @@ package pes.anticatastrofe.aditionalInfo;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class AditionalInfoDTOIn {
     private String street;
@@ -10,5 +12,7 @@ public class AditionalInfoDTOIn {
     private String postal_code;
     private String country;
     private String path_profile_pic;
+    private String blood_type;
+    private Date birth_date;
     private String email;
 }
