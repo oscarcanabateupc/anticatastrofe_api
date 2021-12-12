@@ -1,0 +1,259 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="canias (generated)" id="1639326085514-1">
+        <createTable tableName="aditional_info">
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="birth_date" type="datetime(6)"/>
+            <column name="blood_type" type="VARCHAR(255)"/>
+            <column name="city" type="VARCHAR(255)"/>
+            <column name="country" type="VARCHAR(255)"/>
+            <column name="path_profile_pic" type="VARCHAR(255)"/>
+            <column name="postal_code" type="VARCHAR(255)"/>
+            <column name="state" type="VARCHAR(255)"/>
+            <column name="street" type="VARCHAR(255)"/>
+            <column name="person_email" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-2">
+        <createTable tableName="admin">
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="regionality" type="VARCHAR(255)"/>
+            <column name="person_email" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-3">
+        <createTable tableName="landmark">
+            <column name="id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="coordinate_x" type="FLOAT(12)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="coordinate_y" type="FLOAT(12)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="is_area" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="radius" type="FLOAT(12)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(255)"/>
+            <column name="creator_email" type="VARCHAR(255)"/>
+            <column name="tag_name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-4">
+        <createTable tableName="message">
+            <column name="id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content" type="VARCHAR(255)"/>
+            <column name="date_sent" type="datetime(6)"/>
+            <column name="seen" type="BIT(1)"/>
+            <column name="recipient_email" type="VARCHAR(255)"/>
+            <column name="sender_email" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-5">
+        <createTable tableName="message_with_coordinates">
+            <column name="id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="landmark_id" type="INT"/>
+            <column name="message_id" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-6">
+        <createTable tableName="notification">
+            <column name="id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="landmark_id" type="INT"/>
+            <column name="tag_name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-7">
+        <createTable tableName="person">
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="phone_num" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="token" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-8">
+        <createTable tableName="person_landmark">
+            <column name="person_email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="landmark_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-9">
+        <createTable tableName="tag">
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="color" type="FLOAT(12)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-10">
+        <createTable tableName="user">
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_coordinate_x" type="FLOAT(12)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_coordinate_y" type="FLOAT(12)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="person_email" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-11">
+        <addPrimaryKey columnNames="email" constraintName="PRIMARY" tableName="aditional_info"/>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-12">
+        <addPrimaryKey columnNames="email" constraintName="PRIMARY" tableName="admin"/>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-13">
+        <addPrimaryKey columnNames="id" constraintName="PRIMARY" tableName="landmark"/>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-14">
+        <addPrimaryKey columnNames="id" constraintName="PRIMARY" tableName="message"/>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-15">
+        <addPrimaryKey columnNames="id" constraintName="PRIMARY" tableName="message_with_coordinates"/>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-16">
+        <addPrimaryKey columnNames="id" constraintName="PRIMARY" tableName="notification"/>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-17">
+        <addPrimaryKey columnNames="email" constraintName="PRIMARY" tableName="person"/>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-18">
+        <addPrimaryKey columnNames="name" constraintName="PRIMARY" tableName="tag"/>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-19">
+        <addPrimaryKey columnNames="email" constraintName="PRIMARY" tableName="user"/>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-20">
+        <addUniqueConstraint columnNames="landmark_id" constraintName="UK_pdxihdr2clea9ywous3cweo0c" tableName="person_landmark"/>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-21">
+        <createIndex indexName="FK2ej1ephipnp32lv2twka8qwbw" tableName="message_with_coordinates">
+            <column name="landmark_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-22">
+        <createIndex indexName="FK5jpy4cddwl1qeat63xl09iv1x" tableName="user">
+            <column name="person_email"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-23">
+        <createIndex indexName="FKcsin0pxr5vqi3i6uq8hvmp8hf" tableName="admin">
+            <column name="person_email"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-24">
+        <createIndex indexName="FKd1abus8obq4bfpimxs2rfwr9i" tableName="notification">
+            <column name="landmark_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-25">
+        <createIndex indexName="FKe4a38c7sf4n3oon4jqninqta9" tableName="message_with_coordinates">
+            <column name="message_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-26">
+        <createIndex indexName="FKe59gu7rmkfto4o7c10rj2mqll" tableName="landmark">
+            <column name="creator_email"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-27">
+        <createIndex indexName="FKh81da1mi9ym873q0a2u5ghb0t" tableName="message">
+            <column name="recipient_email"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-28">
+        <createIndex indexName="FKilbyph3s2hilnxsaccf0geolu" tableName="notification">
+            <column name="tag_name"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-29">
+        <createIndex indexName="FKm370h0qt1pmoaq00ba4ylaejs" tableName="landmark">
+            <column name="tag_name"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-30">
+        <createIndex indexName="FKo36hldt3trubr4v1k37oabu49" tableName="person_landmark">
+            <column name="person_email"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-31">
+        <createIndex indexName="FKpli81idwakiopb5btq1fvfhex" tableName="message">
+            <column name="sender_email"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-32">
+        <createIndex indexName="FKqpw2u0yo32ttu9e6629s24ngp" tableName="aditional_info">
+            <column name="person_email"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-33">
+        <addForeignKeyConstraint baseColumnNames="landmark_id" baseTableName="message_with_coordinates" constraintName="FK2ej1ephipnp32lv2twka8qwbw" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="landmark"/>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-34">
+        <addForeignKeyConstraint baseColumnNames="landmark_id" baseTableName="person_landmark" constraintName="FK433uu71x3xbjk18wnbnfu6vxn" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="landmark"/>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-35">
+        <addForeignKeyConstraint baseColumnNames="person_email" baseTableName="user" constraintName="FK5jpy4cddwl1qeat63xl09iv1x" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="email" referencedTableName="person"/>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-36">
+        <addForeignKeyConstraint baseColumnNames="person_email" baseTableName="admin" constraintName="FKcsin0pxr5vqi3i6uq8hvmp8hf" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="email" referencedTableName="person"/>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-37">
+        <addForeignKeyConstraint baseColumnNames="landmark_id" baseTableName="notification" constraintName="FKd1abus8obq4bfpimxs2rfwr9i" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="landmark"/>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-38">
+        <addForeignKeyConstraint baseColumnNames="message_id" baseTableName="message_with_coordinates" constraintName="FKe4a38c7sf4n3oon4jqninqta9" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="message"/>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-39">
+        <addForeignKeyConstraint baseColumnNames="creator_email" baseTableName="landmark" constraintName="FKe59gu7rmkfto4o7c10rj2mqll" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="email" referencedTableName="person"/>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-40">
+        <addForeignKeyConstraint baseColumnNames="recipient_email" baseTableName="message" constraintName="FKh81da1mi9ym873q0a2u5ghb0t" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="email" referencedTableName="person"/>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-41">
+        <addForeignKeyConstraint baseColumnNames="tag_name" baseTableName="notification" constraintName="FKilbyph3s2hilnxsaccf0geolu" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="name" referencedTableName="tag"/>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-42">
+        <addForeignKeyConstraint baseColumnNames="tag_name" baseTableName="landmark" constraintName="FKm370h0qt1pmoaq00ba4ylaejs" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="name" referencedTableName="tag"/>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-43">
+        <addForeignKeyConstraint baseColumnNames="person_email" baseTableName="person_landmark" constraintName="FKo36hldt3trubr4v1k37oabu49" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="email" referencedTableName="person"/>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-44">
+        <addForeignKeyConstraint baseColumnNames="sender_email" baseTableName="message" constraintName="FKpli81idwakiopb5btq1fvfhex" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="email" referencedTableName="person"/>
+    </changeSet>
+    <changeSet author="canias (generated)" id="1639326085514-45">
+        <addForeignKeyConstraint baseColumnNames="person_email" baseTableName="aditional_info" constraintName="FKqpw2u0yo32ttu9e6629s24ngp" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="email" referencedTableName="person"/>
+    </changeSet>
+</databaseChangeLog>
