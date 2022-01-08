@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import pes.anticatastrofe.person.Person;
 
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -29,6 +32,8 @@ public class AditionalInfo {
     private Person person;
 
     public AditionalInfo(AditionalInfoDTOIn a,Person p){
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
         street = a.getStreet();
         city = a.getCity();
         state = a.getState();
@@ -36,7 +41,11 @@ public class AditionalInfo {
         country = a.getCountry();
         path_profile_pic = a.getPath_profile_pic();
         blood_type = a.getBlood_type();
-        birth_date = a.getBirth_date();
+        try {
+            birth_date = formatter.parse(a.getBirth_date());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         email = a.getEmail();
         person = p;
     }
