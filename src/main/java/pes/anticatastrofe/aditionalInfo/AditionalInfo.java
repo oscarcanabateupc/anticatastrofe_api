@@ -24,7 +24,6 @@ public class AditionalInfo {
     private String country;
     private String path_profile_pic;
     private String blood_type;
-    private Date birth_date;
     @Id
     private String email;
 
@@ -41,11 +40,6 @@ public class AditionalInfo {
         country = a.getCountry();
         path_profile_pic = a.getPath_profile_pic();
         blood_type = a.getBlood_type();
-        try {
-            birth_date = formatter.parse(a.getBirth_date());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
         email = a.getEmail();
         person = p;
     }

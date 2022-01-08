@@ -55,7 +55,6 @@ class AditionalInfoControllerTest {
     void testRegisterNewAditionalInfo() throws Exception {
         AditionalInfoDTOIn aditionalInfoDTOIn = new AditionalInfoDTOIn();
         LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
-        aditionalInfoDTOIn.setBirth_date(String.valueOf(Date.from(atStartOfDayResult.atZone(ZoneId.of("UTC")).toInstant())));
         aditionalInfoDTOIn.setBlood_type("Blood type");
         aditionalInfoDTOIn.setCity("Oxford");
         aditionalInfoDTOIn.setCountry("GB");

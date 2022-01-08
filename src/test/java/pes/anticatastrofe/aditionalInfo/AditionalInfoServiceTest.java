@@ -54,7 +54,6 @@ class AditionalInfoServiceTest {
 
         AditionalInfo aditionalInfo = new AditionalInfo();
         LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
-        aditionalInfo.setBirth_date(Date.from(atStartOfDayResult.atZone(ZoneId.of("UTC")).toInstant()));
         aditionalInfo.setBlood_type("Blood type");
         aditionalInfo.setCity("Oxford");
         aditionalInfo.setCountry("GB");
@@ -76,7 +75,6 @@ class AditionalInfoServiceTest {
 
         AditionalInfo aditionalInfo1 = new AditionalInfo();
         LocalDateTime atStartOfDayResult1 = LocalDate.of(1970, 1, 1).atStartOfDay();
-        aditionalInfo1.setBirth_date(Date.from(atStartOfDayResult1.atZone(ZoneId.of("UTC")).toInstant()));
         aditionalInfo1.setBlood_type("Blood type");
         aditionalInfo1.setCity("Oxford");
         aditionalInfo1.setCountry("GB");
@@ -111,7 +109,6 @@ class AditionalInfoServiceTest {
 
         AditionalInfo aditionalInfo = new AditionalInfo();
         LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
-        aditionalInfo.setBirth_date(Date.from(atStartOfDayResult.atZone(ZoneId.of("UTC")).toInstant()));
         aditionalInfo.setBlood_type("Blood type");
         aditionalInfo.setCity("Oxford");
         aditionalInfo.setCountry("GB");

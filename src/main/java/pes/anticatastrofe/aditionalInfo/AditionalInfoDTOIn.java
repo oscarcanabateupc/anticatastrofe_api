@@ -13,6 +13,5 @@ public class AditionalInfoDTOIn {
     private String country;
     private String path_profile_pic;
     private String blood_type;
-    private String birth_date;
     private String email;
 }

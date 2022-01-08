@@ -16,7 +16,6 @@ public class AditionalInfoDTO {
     private String country;
     private String path_profile_pic;
     private String blood_type;
-    private String birth_date;
     private String email;
 
     @SneakyThrows
@@ -30,7 +29,6 @@ public class AditionalInfoDTO {
         country = ai.getCountry();
         path_profile_pic = ai.getPath_profile_pic();
         blood_type = ai.getBlood_type();
-        birth_date = formatter.format(ai.getBirth_date());
         email = ai.getEmail();
     }
 }
